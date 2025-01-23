@@ -158,7 +158,10 @@ namespace CharacterGenerator
 			//CONCERN: this would overwrite the value in rawStats.  Might be undesireable.  Or maybe negates the declarations in MAIN
 
 		}//end of MethodI
-		
+		public static int[][] MethodII(){
+			//"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
+			
+		}//end of methodII
 
 	}//end of class
 }//end of namespace
