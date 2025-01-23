@@ -7,6 +7,7 @@ namespace CharacterGenerator
 	internal class Program
 	{
 		private static Random rnd = new Random();
+		private static String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
 		static void Main()
 		{
 			Console.WriteLine("Hello World!");
