@@ -158,8 +158,31 @@ namespace CharacterGenerator
 			//CONCERN: this would overwrite the value in rawStats.  Might be undesireable.  Or maybe negates the declarations in MAIN
 
 		}//end of MethodI
-		public static int[][] MethodII(){
+		public static int[][] MethodII()
+		{
 			//"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
+			int[][] results = [1][];
+			results[0] = new int[12];//size of 12, or size of 6 and just discard the stats below the lowest value, or store all and filter after?
+			for (int x = 0;x<12;x++)
+			{
+				int temp = 0;
+				for (int y = 0; y<3;y++)
+				{
+					temp+=die(6);
+				}//end of rolling for 1 set
+				
+				Console.WriteLine(temp);//test output
+				
+				//need a means to eval the outcome against the current stored set(s) or no sets, as the case may be.
+				//PSEUDO CODE 
+				/*
+				if (results[0].lowest <= temp)//compare lowest stored value against the generated temp var.  If the stored value is lower, replace it.
+					results[0].lowest = temp;
+     				//else... loop around
+	 			*/
+			}//end of generation loop
+			
+			
 			
 		}//end of methodII
 
