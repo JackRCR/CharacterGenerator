@@ -88,13 +88,47 @@ namespace CharacterGenerator
 		}//end of Dice
 		public static bool ValidateLegalSet(int[] die)
 		{
-			if (die.Length!=6)//
-				return false;
-			//int resultsUnder5 = 0, resultsUnder6 = 0;//I DON'T RECALL THE ACTUAL VALUES
+			//This checks for "impossible" sets, and return a false value invalid.  It will return true if valid
+			//THE CALLING FUNCTION IS RESPONSIBLE FOR ACTING ON THE RESULT
 
+			//NOTE: Source of illegal definitions are taken from Old School by Rick: Crusaders & Catacombs aka "it_ain't_done.pdf"/"Lance and Tome.pdf"
+			// Impossible Attributes:
+			// Any set of stats with either 2 or more scores of 5 or less
+			// 3+ scores of 6 or less is ‘impossible’ and may be discarded and re-rolled.
+
+
+
+			if (die.Length!=6)//check the set provided is valid
+				return false;
+			
+			//various variables
+			int resultsUnder6 = 0;
+			int resultsUnder7 = 0;
+			int highestMark=-1;
+			for (int x = 0;x<die.Length;x++)
+			{
+				//if (die[x] == 3)//if a value of 3 shows up, discard
+					//return false;
+				if (die[x]<6)//check to tally first
+					resultsUnder6++;
+				if (resultsUnder6 > 1)//if there are TWO results below 6, discard
+				{
+					Console.WriteLine("WARNING: Illegal set, x2 values <= 5");
+					return false;
+				}
+					
+				if (die[x] < 7)//check to tally first
+					resultsUnder7++;
+				if (resultsUnder7 > 2)//if there are THREE results below 7, discard
+				{
+					Console.WriteLine("WARNING: Illegal set, x3 values <= 6");
+					return false;
+				}
+			}//end of loop
+			
 
 			return true;
-		}
+		}//ValidateLegalSet
 		public static int[][] MethodI()//Creating to segregate out the results
 		{
 			//1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.
