@@ -33,6 +33,7 @@ namespace CharacterGenerator
 			//9. initial money
 			//10 Weapons proficiency guidelines
 
+
 			//investigate "jump statements" as a means of handling requests to back up a step.
 
 			//1: present methods
