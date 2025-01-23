@@ -51,7 +51,7 @@ namespace CharacterGenerator
 					"9: MANUAL ENTRY\n");
 				//2: read input -- Complete.
 				int selection = -1;
-				int.TryParse(Console.ReadLine(), out selection);
+				int.TryParse(Console.ReadLine(), out selection);//I do not understand what TryParse is doing necessarily.
 				Console.WriteLine("====================");
 
 
@@ -130,6 +130,26 @@ namespace CharacterGenerator
 
 			return true;
 		}//ValidateLegalSet
+		
+		public static int[] ArrangeSet(int[] input)
+		{
+			//purpose: for sets that will prompt for order considerations, this runs through the process
+			int[] output = new int[6];
+			int[] usedNums = new int [];//anti-cheating validation.  Prevent duplication.
+			int[]
+			
+			for (int x = 0;x<statNames.length();x++)
+				Console.writeLine(x + ": " +input[x]);
+			for (int x = 0;x<statNames.length();x++)
+			{
+				Console.Write(statNames[0]+": ");
+				int.TryParse(Console.ReadLine(), out output[x]);//uncertain if this will work.  Lots of vars abound.
+				//output[x]=Console.ReadLine();//previous attempt... might play around with later
+			}//end of loop
+
+			//test output may be necessary.
+			
+		}//end of ArrangeSet		
 		public static int[][] MethodI()//Creating to segregate out the results
 		{
 			//1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.
