@@ -180,7 +180,7 @@ namespace CharacterGenerator
 						Console.WriteLine("WARNING: DO NOT REUSE SELECTIONS");
 						goto Restart;
 					}//end of if
-					 //else, no action, prooed
+					 //else, no action, proceed
 				}//end of loop
 
 				output[x] = input[usedNums[x] - 1];
