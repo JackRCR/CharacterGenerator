@@ -135,8 +135,8 @@ namespace CharacterGenerator
 		{
 			//purpose: for sets that will prompt for order considerations, this runs through the process
 			int[] output = new int[6];
-			int[] usedNums = new int [];//anti-cheating validation.  Prevent duplication.
-			int[]
+			int[] usedNums = new int [6];//anti-cheating validation.  Prevent duplication.  Exeact implementation to be figured...
+			
 			
 			for (int x = 0;x<statNames.length();x++)
 				Console.writeLine(x + ": " +input[x]);
