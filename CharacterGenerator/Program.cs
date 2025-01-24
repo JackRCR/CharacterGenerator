@@ -35,10 +35,21 @@ namespace CharacterGenerator
 			//9. initial money
 			//10 Weapons proficiency guidelines
 
-			//investigate "jump statements" as a means of handling requests to back up a step.
-			//1: present methods -- Some error checking needed that the language is correct
+			/* ORDER OF OPERATIONS
+			 * 1. Present methods
+			 * 2. prompt for numeric input
+			 * 3. parse and store input, call indicated function
+			 * 4a. Indicated function rolls up stats
+			 * 4b. Functions call seperate function checking stats are "legal'
+			 * 4c. Functions MAY ask user for input on ordering ---> THIS MAY NEED/CAN-BE MOVED ELSEWHERE.
+			 * 4d. Return valid results to the user, and present stats
+			 * 
+			 */
+
 			while (true)
 			{
+				Console.WriteLine("Press any key to continue...");
+				Console.ReadLine();
 				Console.WriteLine(
 					"Welcome to Carefulrogue's Character Generator!\n" +
 					"To begin, select a method (numpad):\n" +
@@ -49,7 +60,7 @@ namespace CharacterGenerator
 					"5: L&T M.0: The default is to roll 3d6 for each attribute in order, resulting in a base score between 3 and 18 and an average of 11.\n" +
 					"6: L&T M.I: Roll 3d6 in order then swap two scores for each other.\n" +
 					"9: MANUAL ENTRY\n");
-				//2: read input -- Complete.
+				
 				int selection = -1;
 				int.TryParse(Console.ReadLine(), out selection);//I do not understand what TryParse is doing necessarily.
 				Console.WriteLine("====================");
@@ -61,23 +72,31 @@ namespace CharacterGenerator
 						rawStats = MethodI();
 						break;
 					case 2:
-
+						Console.WriteLine("Oops, Method II has not been written!  Report to Carefulrogue");
 						break;
 					case 3:
-
+						Console.WriteLine("Oops, Method III has not been written!  Report to Carefulrogue");
 						break;
 					case 4:
-
+						Console.WriteLine("Oops, Method IV has not been written!  Report to Carefulrogue");
 						break;
 					case 5:
-
+						Console.WriteLine("Oops, L&T M.0 has not been written!  Report to Carefulrogue");
+						break;
+					case 6:
+						Console.WriteLine("Oops, L&T M.1 has not been written!  Report to Carefulrogue");
 						break;
 					default://been a while, how does one Switch?
-						Console.WriteLine("Invalid entry.  Please enter a numeric character");
+						Console.WriteLine("Invalid entry.  Please enter a valid numeric character");
 						break;
-				}
+				}//end of switch block
 
-				//4 display results
+				//Eval and present valid races, and attempt to highlight stat lossess
+
+
+				//Eval valid classes
+
+				
 				Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
 			}
 		}
@@ -87,7 +106,7 @@ namespace CharacterGenerator
 			int x = rnd.Next(1, die);
 			return x;
 		}//end of Dice
-		public static bool ValidateLegalSet(int[] die)
+		public static bool ValidateLegalSet(int[] inputs)
 		{
 			//This checks for "impossible" sets, and return a false value invalid.  It will return true if valid
 			//THE CALLING FUNCTION IS RESPONSIBLE FOR ACTING ON THE RESULT
@@ -99,18 +118,18 @@ namespace CharacterGenerator
 
 
 
-			if (die.Length!=6)//check the set provided is valid
+			if (inputs.Length!=6)//check the set provided is valid
 				return false;
 			
 			//various variables
 			int resultsUnder6 = 0;
 			int resultsUnder7 = 0;
 			int highestMark=-1;
-			for (int x = 0;x<die.Length;x++)
+			for (int x = 0;x<inputs.Length;x++)
 			{
 				//if (die[x] == 3)//if a value of 3 shows up, discard
 					//return false;
-				if (die[x]<6)//check to tally first
+				if (inputs[x]<6)//check to tally first
 					resultsUnder6++;
 				if (resultsUnder6 > 1)//if there are TWO results below 6, discard
 				{
@@ -118,7 +137,7 @@ namespace CharacterGenerator
 					return false;
 				}
 					
-				if (die[x] < 7)//check to tally first
+				if (inputs[x] < 7)//check to tally first
 					resultsUnder7++;
 				if (resultsUnder7 > 2)//if there are THREE results below 7, discard
 				{
@@ -134,21 +153,48 @@ namespace CharacterGenerator
 		public static int[] ArrangeSet(int[] input)
 		{
 			//purpose: for sets that will prompt for order considerations, this runs through the process
+			//Concern, prevent reuse of the same chars.  
 			int[] output = new int[6];
 			int[] usedNums = new int [6];//anti-cheating validation.  Prevent duplication.  Exeact implementation to be figured...
-			
-			
-			for (int x = 0;x<statNames.length();x++)
-				Console.writeLine(x + ": " +input[x]);
-			for (int x = 0;x<statNames.length();x++)
-			{
-				Console.Write(statNames[0]+": ");
-				int.TryParse(Console.ReadLine(), out output[x]);//uncertain if this will work.  Lots of vars abound.
-				//output[x]=Console.ReadLine();//previous attempt... might play around with later
+
+			/* 
+			 * Order of Operations:
+			 * 1. Present the stats rolled, adjacent to a selector number 1-6
+			 * Note: each selector can only be used ONCE
+			 * 2. Stow the selected number into an output array
+			 */
+
+			Console.WriteLine("Stat Options:");
+			for (int x = 0;x<statNames.Length;x++)
+				Console.WriteLine((x+1) + ": " +input[x]);//+1 to make the suggestion 1-6 not 0-5.
+			Console.WriteLine("Select the corresponding number ONCE:");
+			for (int x = 0;x<statNames.Length;x++)
+			{//Stepping through the prompts for entry
+				Restart:
+				Console.Write(statNames[x]+": ");
+				int.TryParse(Console.ReadLine(), out usedNums[x]);//parse and stow the selected val.
+				for (int y = 0; y < x + 1; y++)//VERIFY NO ENTERED NUM IS USED TWICE
+				{
+					if (usedNums[y] == usedNums[x] && y != x)// compared the stored value, NOT the the indexes
+					{
+						Console.WriteLine("WARNING: DO NOT REUSE SELECTIONS");
+						goto Restart;
+					}//end of if
+					 //else, no action, prooed
+				}//end of loop
+
+				output[x] = input[usedNums[x] - 1];
+
 			}//end of loop
 
+			//Between here and return is just test code.  Can discard
+			Console.WriteLine("====================");
+			for (int x = 0; x < statNames.Length; x++)
+			{				
+				Console.WriteLine(statNames[x] + ": " + output[x]);
+			}
 			//test output may be necessary.
-			
+			return output;
 		}//end of ArrangeSet		
 		public static int[][] MethodI()//Creating to segregate out the results
 		{
@@ -172,23 +218,26 @@ namespace CharacterGenerator
 				}//rolls for stats
 				//finally, validate if the set is legal:
 				validate = ValidateLegalSet(results[0]);
-				Console.WriteLine(validate);
-			}
-			return results;
+				Console.WriteLine("Validate: "+validate);
+				
+			}//end of validation failure reroll loop
+			int[][] output = new int[1][];
+			output[0] = ArrangeSet(results[0]);
+			return output;
 			//CONCERN: this would overwrite the value in rawStats.  Might be undesireable.  Or maybe negates the declarations in MAIN
 
 		}//end of MethodI
 		public static int[][] MethodII()
 		{
 			//"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
-			int[][] results = [1][];
+			int[][] results = new int[1][];
 			results[0] = new int[12];//size of 12, or size of 6 and just discard the stats below the lowest value, or store all and filter after?
 			for (int x = 0;x<12;x++)
 			{
 				int temp = 0;
 				for (int y = 0; y<3;y++)
 				{
-					temp+=die(6);
+					temp+=Dice(6);
 				}//end of rolling for 1 set
 				
 				Console.WriteLine(temp);//test output
@@ -201,9 +250,9 @@ namespace CharacterGenerator
      				//else... loop around
 	 			*/
 			}//end of generation loop
-			
-			
-			
+
+
+			return results;
 		}//end of methodII
 
 	}//end of class
