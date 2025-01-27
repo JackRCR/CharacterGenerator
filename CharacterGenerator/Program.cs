@@ -14,6 +14,11 @@ namespace CharacterGenerator
 
 			//not final place, just figuring out what I needed
 			int[][] rawStats = new int[12][];//size of the array may need to be altered
+			List<int[]> ints = new List<int[]>();//what I probably SHOULD do instead of [][]
+			
+
+
+
 			//At present this is a MD 2D array.  Jagged arrays use the [][] format, and are a little harder to use.
 			int selectedSet = 0;//for if there are multiple sets in play, it indicates what set it will use going forward.  Default 0
 			int[] finalStats = new int[6];
@@ -92,11 +97,13 @@ namespace CharacterGenerator
 				}//end of switch block
 
 				//Eval and present valid races, and attempt to highlight stat lossess
-
-
+				//male/female minimums are identical.  Breaking M/F maximums into different stat
+				List<int[]> racialMinimums = new List<int[]>();
+				String[] playerRaces = new String[] {"Dwarf","Elf","Gnome","Halfling","Half-Elf","Half-Orc"};
+				String[] NPCRaces = new String[] {""};//Will flesh out later.  Has different considerations
 				//Eval valid classes
 
-				
+
 				Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
 			}
 		}
@@ -255,5 +262,9 @@ namespace CharacterGenerator
 			return results;
 		}//end of methodII
 
+		public static List<int[]> MethodIII()
+		{
+			return null;
+		}
 	}//end of class
 }//end of namespace
