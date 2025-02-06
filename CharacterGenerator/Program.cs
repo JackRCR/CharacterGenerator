@@ -13,9 +13,11 @@ namespace CharacterGenerator
 			Console.WriteLine("Hello World!");
 
 			//not final place, just figuring out what I needed
-			int[][] rawStats = new int[12][];//size of the array may need to be altered
-			List<int[]> ints = new List<int[]>();//what I probably SHOULD do instead of [][]
 			
+			List<int[]> rawStats = new List<int[]>();
+			//the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
+			List<List<String>> validRaces = new List<List<String>>();
+			List<List<String>> validClasses = new List<List<String>>();
 
 
 
@@ -91,6 +93,9 @@ namespace CharacterGenerator
 					case 6:
 						Console.WriteLine("Oops, L&T M.1 has not been written!  Report to Carefulrogue");
 						break;
+					case 9:
+						rawStats = MethodManual();
+						break;
 					default://been a while, how does one Switch?
 						Console.WriteLine("Invalid entry.  Please enter a valid numeric character");
 						break;
@@ -99,13 +104,85 @@ namespace CharacterGenerator
 				//Eval and present valid races, and attempt to highlight stat lossess
 				//male/female minimums are identical.  Breaking M/F maximums into different stat
 				List<int[]> racialMinimums = new List<int[]>();
-				String[] playerRaces = new String[] {"Dwarf","Elf","Gnome","Halfling","Half-Elf","Half-Orc"};
-				String[] NPCRaces = new String[] {""};//Will flesh out later.  Has different considerations
+				racialMinimums.Add(new int[] { 8, 3, 3, 3, 12, 3 });//dwarf
+				racialMinimums.Add(new int[] { 3, 8, 3, 7, 6, 8 });//elf
+				racialMinimums.Add(new int[] { 6, 7, 3, 3, 8, 3 });//Gnome
+				racialMinimums.Add(new int[] { 6, 6, 3, 8, 10, 3 });//Halfling
+				racialMinimums.Add(new int[] { 3, 4, 3, 6, 6, 3 });//Half-elf
+				racialMinimums.Add(new int[] { 6, 3, 3, 3, 13, 3 });//half-orc
+
+				List<String> playerRaces = new List<String> {"Dwarf","Elf","Gnome","Halfling","Half-Elf","Half-Orc"};
+				List<String> NPCRaces = new List<String> { "WARNING NOT SETUP"};//Will flesh out later.  Has different considerations
+				
+
+
+				for (int rawIndex = 0; rawIndex < rawStats.Count; rawIndex++)
+				{
+					List<String> possibleRaces = new List<String>();
+					
+					for (int racialIndex = 0; racialIndex < racialMinimums.Count; racialIndex++)
+					{
+						bool test= true;//if this gets set to false, the race isn't possible.
+						//step through each set and evaluate weather a stat set can be any of them.
+						
+						for (int index = 0; index < 6; index++)
+						{
+							if (rawStats[rawIndex][index] < racialMinimums[racialIndex][index])
+							{
+								test = false;
+								//if the rawStat value is below the corresponding racial value... set test to false.
+								goto Next;
+							}//end of eval if stat is less than the minimum (and disqualifying)
+						
+						}//end of stat eval loop
+					Next:
+						if (test)//if true, make an index
+							possibleRaces.Add(playerRaces[racialIndex]);
+					}//end of racialIndex loop
+					String possibleRacesString= "";//temporary construct
+					for (int x = 0; x < possibleRaces.Count; x++)
+					{
+						possibleRacesString += possibleRaces[x]+"\n";
+					}//end of 
+					Console.WriteLine(possibleRacesString);//Display races available to this set.
+					validRaces.Add(possibleRaces);
+				}//end of rawStat Index loop
+
+
 				//Eval valid classes
+				for (int rawIndex = 0;rawIndex < rawStats.Count; rawIndex++)
+				{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				}//end of rawSTatIndex loop
+
+
+
+
+
+
+
+
+
+
+
 
 
 				Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
-			}
+			}//end of while(true)
 		}
 		public static int Dice(int die)
 		{//executes one cast of the dice.
@@ -203,11 +280,12 @@ namespace CharacterGenerator
 			//test output may be necessary.
 			return output;
 		}//end of ArrangeSet		
-		public static int[][] MethodI()//Creating to segregate out the results
+		public static List<int[]> MethodI()//Creating to segregate out the results
 		{
 			//1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.
-			int[][] results = new int[1][];//jagged array.  Probably the solution to my problemw ith passing 1D arrays
-			results[0] = new int[6];
+			List<int[]> results = new List<int[]>();//jagged array.  Probably the solution to my problemw ith passing 1D arrays
+			results.Add(new int[6]);//just a single enement needed in THIS CASE.  This IS a conversion, and there may be errors.
+			
 			bool validate = false;
 			while (validate == false)
 			{
@@ -228,16 +306,15 @@ namespace CharacterGenerator
 				Console.WriteLine("Validate: "+validate);
 				
 			}//end of validation failure reroll loop
-			int[][] output = new int[1][];
-			output[0] = ArrangeSet(results[0]);
-			return output;
+			results[0] = ArrangeSet(results[0]);
+			return results;
 			//CONCERN: this would overwrite the value in rawStats.  Might be undesireable.  Or maybe negates the declarations in MAIN
 
 		}//end of MethodI
-		public static int[][] MethodII()
+		public static List<int[]> MethodII()
 		{
 			//"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
-			int[][] results = new int[1][];
+			List<int[]> results = new List<int[]>();
 			results[0] = new int[12];//size of 12, or size of 6 and just discard the stats below the lowest value, or store all and filter after?
 			for (int x = 0;x<12;x++)
 			{
@@ -266,5 +343,18 @@ namespace CharacterGenerator
 		{
 			return null;
 		}
+		public static List<int[]> MethodManual()
+		{
+			List<int[]> results = new List<int[]>();
+			results.Add(new int[6]);
+			for (int x = 0; x < statNames.Length; x++)
+			{//Stepping through the prompts for entry
+				Console.Write(statNames[x] + ": ");
+				int.TryParse(Console.ReadLine(), out results[0][x]);//parse and stow the selected val.
+				
+
+			}//end of loop
+			return results;
+		}//end of MethodManual
 	}//end of class
 }//end of namespace
