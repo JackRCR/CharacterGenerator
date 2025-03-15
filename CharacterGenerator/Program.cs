@@ -70,6 +70,7 @@ namespace CharacterGenerator
 				
 				int selection = -1;
 				int.TryParse(Console.ReadLine(), out selection);//I do not understand what TryParse is doing necessarily.
+				//Console.WriteLine(selection);//non number will print out '0'
 				Console.WriteLine("====================");
 
 
