@@ -8,12 +8,18 @@ namespace CharacterGenerator
 {
 	internal class CharClass
 	{
-		private int[] statReqs;
+		private int[] statReqs = new int[6];//States required to choose class.
 		private int hitDie;
-		private List<int> experienceThresholds = new List<int>();
-		private int additionalList;
-		private int hardCap;
-		private List<String> allowedRaces = new List<String>();//might change this to something else.
+		//experience section
+		private List<int> experienceThresholds = new List<int>();//thresholds for leveling
+		private int additionalXP;//XP require to exceed soft cap
+		private int softCap;//the softCap where xp thresholds change.
+		private int hardCap;//maximum possible level.  If x == 0 should be uncapped.
+		
+
+		private List<String> allowedRaces = new List<String>();//what races can play this class?
+		//I fear I may be creating a loop between CharClass and Race
+		//level limits need some implementation.  Uncertain at this time how or where to do so.  Maybe in races, maybe classes, maybe in some third place.
 		public CharClass() {
 			
 		}//end of constructor
