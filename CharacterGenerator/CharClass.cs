@@ -16,6 +16,7 @@ namespace CharacterGenerator
 		private int softCap;//the softCap where xp thresholds change.
 		private int hardCap;//maximum possible level.  If x == 0 should be uncapped.
 		
+		private bool npcOnly=false;
 
 		private List<String> allowedRaces = new List<String>();//what races can play this class?
 		//I fear I may be creating a loop between CharClass and Race
