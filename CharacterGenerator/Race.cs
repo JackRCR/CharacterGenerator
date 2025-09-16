@@ -10,6 +10,9 @@ namespace CharacterGenerator
 {
 	internal class Race
 	{
+		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to, not to be changed.
+		//think of this as more of a reference sheet for the given race.  
+		//... Racial specifics are making me think this needs to become an interface that's extended and allows polymorphism to handle the catastrophe to come.
 		String name;
 		//STR, INT, WIS, DEX, CON, CHA
 		private int[] racialMinimums = new int[6];
@@ -20,15 +23,17 @@ namespace CharacterGenerator
 		private int exceptionalStrengthCapFemale;
 
 		private String statModsDesc;//Just a desc text, no funcitons performed.
-		
-		//these two must be paired together.  
-		private List<int> targetScore = new List<int>();//...? what was I thinking of here?
-		private List<int> scoreModification = new List<int>();//how stats are modified by choosing this race.
 
+		
+		private int[] scoreModification = new int[6];//how stats are modified by choosing this race.
+		//For example a dwarf would be [4]=1 && [5]=-1, reflecting Con+1 && Cha-1 respectively.  All other scores would be zeros.  Dwarf: [0,0,0,0,1,-1]
+		
 		//class/level considerations
 		private List<CharClass> eligibleClasses = new List<CharClass>();//what classes can this race play?
-		//I fear I may be creating a loop between CharClass and Race
-		//level limits need some implementation.  Uncertain at this time how or where to do so.  Maybe in races, maybe classes, maybe in some third place.
+		private List<int> classRestrictions = new List<int>();//INT may be the wrong var to use here.  The chart I'm trying to emulate has a lot of exceptions.  
+		//any add/remove operations require syncronization. Am not segregating into a seperate class here
+		
+		
 
 		//level limits?  May delay.
 		public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 

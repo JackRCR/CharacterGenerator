@@ -8,6 +8,8 @@ namespace CharacterGenerator
 {
 	internal class CharClass
 	{
+		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to, not to be changed.
+
 		private int[] statReqs = new int[6];//States required to choose class.
 		private int hitDie;
 		//experience section
@@ -18,17 +20,21 @@ namespace CharacterGenerator
 		
 		private bool npcOnly=false;
 
-		private List<String> allowedRaces = new List<String>();//what races can play this class?
-		//I fear I may be creating a loop between CharClass and Race
-		//level limits need some implementation.  Uncertain at this time how or where to do so.  Maybe in races, maybe classes, maybe in some third place.
-		public CharClass() {
-			
+		
+		public CharClass(int[] statReqs, int hitDie, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
+			this.statReqs = statReqs;
+			this.hitDie = hitDie;
+			this.experienceThresholds = experienceThresholds;
+			this.additionalXP = additionalXP;
+			this.softCap = softCap;
+			this.hardCap = hardCap;
 		}//end of constructor
 
-		public bool IsAllowed(string race,int[] inputStats)
+		public bool IsAllowed(int[] inputStats)
 		{
-			return allowedRaces.Contains(race) &&
-				inputStats[0] >= statReqs[0] &&
+			//NOTE, USED TO HAVE A RACE ASPECT TO THIS.  Removing as I think it needs to be decoupled.
+			//where this gets called has some implications now.  Probably via a Race class call
+			return inputStats[0] >= statReqs[0] &&
 				inputStats[1] >= statReqs[1] &&
 				inputStats[2] >= statReqs[2] &&
 				inputStats[3] >= statReqs[3] &&
