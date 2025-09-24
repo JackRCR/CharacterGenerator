@@ -59,6 +59,7 @@ namespace CharacterGenerator
 				Console.ReadLine();
 				Console.WriteLine(
 					"Welcome to Carefulrogue's Character Generator!\n" +
+					"Based on Lance and Tome version acquired April 2025.  Thanks Rick!\n" +
 					"To begin, select a method (numpad):\n" +
 					"1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.\n" +
 					"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +

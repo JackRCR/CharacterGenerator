@@ -8,7 +8,7 @@ namespace CharacterGenerator
 {
 	internal class CharClass
 	{
-		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to, not to be changed.
+		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to and calc from, not to be changed.
 
 		private int[] statReqs = new int[6];//States required to choose class.
 		private int hitDie;
@@ -16,10 +16,25 @@ namespace CharacterGenerator
 		private List<int> experienceThresholds = new List<int>();//thresholds for leveling
 		private int additionalXP;//XP require to exceed soft cap
 		private int softCap;//the softCap where xp thresholds change.
-		private int hardCap;//maximum possible level.  If x == 0 should be uncapped.
+		private int hardCap;//maximum possible level.  
 		
 		private bool npcOnly=false;
 
+		private bool attributeLimited;//if false, discard any requests further down.  If true, add/include results further down
+		
+
+		private int[] attributes;//specifying the indexes of StatReqs are to be checked to pull the values.  To my knowledge just 2 are typical.  
+								 //just specify 0-5 WHICH of the six stats they are to check the statReq with an index.
+		private int[] baseline;//
+		private int[] threshold;//For however many 'attributes' there are, define the floor threshold.
+		//The simple variant of calcing levellimits is "Stat-threshold=additional_levels+baseline==ActualLimit/BookLimit"
+		//Wishes or GM fiat can overrule.  
+		//I'm CERTAIN there will be a few flaws in this logic.  This may be shelved and checked elsewhere at some other point in time.
+
+		//general notes, level limits ARE NOT IMPLEMENTED
+		//See Man-at-arms, Summoner, Religious brother, to compare/contrast.
+		//Man-at-arms and RB are handled in a similar fashion.
+		//Summoner may require it's own class inheriting the values and overriding the attribute calculation.
 		
 		public CharClass(int[] statReqs, int hitDie, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
 			this.statReqs = statReqs;

@@ -26,14 +26,29 @@ namespace CharacterGenerator
 
 		
 		private int[] scoreModification = new int[6];//how stats are modified by choosing this race.
-		//For example a dwarf would be [4]=1 && [5]=-1, reflecting Con+1 && Cha-1 respectively.  All other scores would be zeros.  Dwarf: [0,0,0,0,1,-1]
-		
+													 //For example a dwarf would be [4]=1 && [5]=-1, reflecting Con+1 && Cha-1 respectively.  All other scores would be zeros.  Dwarf: [0,0,0,0,1,-1]
+
 		//class/level considerations
-		private List<CharClass> eligibleClasses = new List<CharClass>();//what classes can this race play?
-		private List<int> classRestrictions = new List<int>();//INT may be the wrong var to use here.  The chart I'm trying to emulate has a lot of exceptions.  
 		//any add/remove operations require syncronization. Am not segregating into a seperate class here
-		
-		
+		private List<CharClass> eligibleClasses = new List<CharClass>();//what classes can this race play?
+		private List<char> classRestrictions = new List<char>();//unused presently.  Has... issues.
+		/*this will be code based.
+		 * U==unlimited 
+		 * A==attribute limited is specified elsewhere.  Still need to flag.
+		 * <number>==specific limit
+		 * '*'==variable limits, depending on attribute and the specific class
+		 * '**'==priest specific limits
+		 * That last is going to be awful to encode.  I just know it!
+		 * Well... it'll be annoying.  
+		 * With the grouping of "super" classes into the categories of Warrior, MU, Priest, Rogue, and Monk (which may or may not be it's own thing) providing broad rules, it'll be ok.
+		 * 
+		 * OUTSTANDING QUESTION: where should this check be made?
+		 * OUTSTANDING QUESTION: are there other simplifications that can be performed?  As is, this is complicated.  Could restrictions be moved to CharClass, or otherwise checked?
+		 * 
+		 */
+
+
+
 
 		//level limits?  May delay.
 		public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 
