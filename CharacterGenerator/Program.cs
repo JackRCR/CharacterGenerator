@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Xml;
+using System.Text.Json;
 
 namespace CharacterGenerator
 {
@@ -8,21 +9,35 @@ namespace CharacterGenerator
 	{
 		private static Random rnd = new Random();
 		private static String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
-		static void Main()
+        private static List<int[]> rawStats = new List<int[]>();
+        //the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
+        private static List<List<String>> validRaces = new List<List<String>>();
+        private static List<List<String>> validClasses = new List<List<String>>();
+        static void Main()
 		{
 			Console.WriteLine("Hello World!");
 
 			//not final place, just figuring out what I needed
 			
-			List<int[]> rawStats = new List<int[]>();
-			//the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
-			List<List<String>> validRaces = new List<List<String>>();
-			List<List<String>> validClasses = new List<List<String>>();
+
+            //Beginning of Racedeterminations V2.  
+            List<Race> settingRaces = new List<Race>();
+            List<CharClass> SettingClasses = new List<CharClass>();
+
+			settingRaces.Add(new Race("Dwarf", new int[] { 8, 3, 3, 3, 12, 3 }, new int[] { 18, 18, 18, 17, 19, 16 }, new int[] { 17, 18, 18, 17, 19, 16 }, 99, 99, "Constitution +1 Charismas -1", new int[] { 0, 0, 0, 0, 1, -1 }));
+			settingRaces.Add(new Race("Elf", new int[] { 3, 8, 3, 7, 6, 8 }, new int[] { 18, 18, 18, 19, 17, 18 }, new int[] { 16, 18, 18, 19, 17, 18 }, 75, 75, "Dexterity +1 Constitution -1", new int[] { 0, 0, 0, 1, -1, 0 }));
+            settingRaces.Add(new Race("Gnomes", new int[] { 6, 7, 3, 3, 8, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 15, 18, 18, 18, 18, 18 }, 50, 50, "", new int[] { 0, 0, 0, 0, 0, 0 }));
+            settingRaces.Add(new Race("Halfling", new int[] { 6, 6, 3, 8, 10, 3 }, new int[] { 17, 18, 17, 19, 19, 18 }, new int[] { 14, 18, 17, 19, 19, 18 }, 100, 100, "Strength -1 Dexterity +1", new int[] { 1, 0, 0, 1, 0, 0 }));
+            settingRaces.Add(new Race("Half-elf", new int[] { 3, 4, 3, 6, 6, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 17, 18, 18, 18, 18, 18 }, 90, 90, "", new int[] { 0, 0, 0, 0, 0, 0 }));
+            settingRaces.Add(new Race("Half-orc", new int[] { 6, 3, 3, 3, 13, 3 }, new int[] { 18, 17, 14, 17, 19, 12 }, new int[] { 18, 17, 14, 17, 19, 12 }, 99, 75, "Y", new int[] { 1, 0, 0, 1, 0, 0 }));
+
+
+			//for now, we're just going to brute force load.  Some other stuff would need to be configured into the race section if used later... but it's time to make the cutover.
 
 
 
-			//At present this is a MD 2D array.  Jagged arrays use the [][] format, and are a little harder to use.
-			int selectedSet = 0;//for if there are multiple sets in play, it indicates what set it will use going forward.  Default 0
+            //At present this is a MD 2D array.  Jagged arrays use the [][] format, and are a little harder to use.
+            int selectedSet = 0;//for if there are multiple sets in play, it indicates what set it will use going forward.  Default 0
 			int[] finalStats = new int[6];
 
 			//Steps: generally a rough outline.  exact order to be decided upon later.
@@ -31,8 +46,8 @@ namespace CharacterGenerator
 			//3a Call corresponding function dedicated to a method and await output.
 			//3b Roll for outcomes.
 			//3c Order and display.
-			//3a prompt for selections where applicable. (numeric)
-			//3b prompt for ordering, where applicable. (numeric)
+			//3d prompt for selections where applicable. (numeric)
+			//3e prompt for ordering, where applicable. (numeric)
 			//4. Filter for applicable race/classes, stow and then display. (race is technically first.)
 			//5. Race Selection: show and prompt for selection. (numeric)
 			//6. Class selection:
@@ -103,89 +118,82 @@ namespace CharacterGenerator
 						break;
 				}//end of switch block
 
-				//Eval and present valid races, and attempt to highlight stat lossess
-				//male/female minimums are identical.  Breaking M/F maximums into different stat
-				List<int[]> racialMinimums = new List<int[]>();
-				racialMinimums.Add(new int[] { 8, 3, 3, 3, 12, 3 });//dwarf
-				racialMinimums.Add(new int[] { 3, 8, 3, 7, 6, 8 });//elf
-				racialMinimums.Add(new int[] { 6, 7, 3, 3, 8, 3 });//Gnome
-				racialMinimums.Add(new int[] { 6, 6, 3, 8, 10, 3 });//Halfling
-				racialMinimums.Add(new int[] { 3, 4, 3, 6, 6, 3 });//Half-elf
-				racialMinimums.Add(new int[] { 6, 3, 3, 3, 13, 3 });//half-orc
-
-				List<String> playerRaces = new List<String> {"Dwarf","Elf","Gnome","Halfling","Half-Elf","Half-Orc"};
-				List<String> NPCRaces = new List<String> { "WARNING NOT SETUP"};//Will flesh out later.  Has different considerations
-				
-
-
-				for (int rawIndex = 0; rawIndex < rawStats.Count; rawIndex++)
-				{
-					List<String> possibleRaces = new List<String>();
-					
-					for (int racialIndex = 0; racialIndex < racialMinimums.Count; racialIndex++)
-					{
-						bool test= true;//if this gets set to false, the race isn't possible.
-						//step through each set and evaluate weather a stat set can be any of them.
-						
-						for (int index = 0; index < 6; index++)
-						{
-							if (rawStats[rawIndex][index] < racialMinimums[racialIndex][index])
-							{
-								test = false;
-								//if the rawStat value is below the corresponding racial value... set test to false.
-								goto Next;
-							}//end of eval if stat is less than the minimum (and disqualifying)
-						
-						}//end of stat eval loop
-					Next:
-						if (test)//if true, make an index
-							possibleRaces.Add(playerRaces[racialIndex]);
-					}//end of racialIndex loop
-					String possibleRacesString= "";//temporary construct
-					for (int x = 0; x < possibleRaces.Count; x++)
-					{
-						possibleRacesString += possibleRaces[x]+"\n";
-					}//end of 
-					Console.WriteLine(possibleRacesString);//Display races available to this set.
-					validRaces.Add(possibleRaces);
-				}//end of rawStat Index loop
+				DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
 
 
 				//Eval valid classes
 				for (int rawIndex = 0;rawIndex < rawStats.Count; rawIndex++)
 				{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+					//UNIMPLMENETED
 				}//end of rawSTatIndex loop
-
-
-
-
-
-
-
-
-
-
 
 
 
 				Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
 			}//end of while(true)
-		}
+		}//end of main
+
+		public static string DetermineRaceV1()
+		{
+
+            //Eval and present valid races, and attempt to highlight stat lossess
+            //male/female minimums are identical.  Breaking M/F maximums into different stat
+            List<int[]> racialMinimums = new List<int[]>();
+            racialMinimums.Add(new int[] { 8, 3, 3, 3, 12, 3 });//dwarf
+            racialMinimums.Add(new int[] { 3, 8, 3, 7, 6, 8 });//elf
+            racialMinimums.Add(new int[] { 6, 7, 3, 3, 8, 3 });//Gnome
+            racialMinimums.Add(new int[] { 6, 6, 3, 8, 10, 3 });//Halfling
+            racialMinimums.Add(new int[] { 3, 4, 3, 6, 6, 3 });//Half-elf
+            racialMinimums.Add(new int[] { 6, 3, 3, 3, 13, 3 });//half-orc
+
+            List<String> playerRaces = new List<String> { "Dwarf", "Elf", "Gnome", "Halfling", "Half-Elf", "Half-Orc" };
+            List<String> NPCRaces = new List<String> { "WARNING NOT SETUP" };//Will flesh out later.  Has different considerations
+
+
+
+            for (int rawIndex = 0; rawIndex < rawStats.Count; rawIndex++)
+            {
+                List<String> possibleRaces = new List<String>();
+
+                for (int racialIndex = 0; racialIndex < racialMinimums.Count; racialIndex++)
+                {
+                    bool test = true;//if this gets set to false, the race isn't possible.
+                                     //step through each set and evaluate weather a stat set can be any of them.
+
+                    for (int index = 0; index < 6; index++)
+                    {
+                        if (rawStats[rawIndex][index] < racialMinimums[racialIndex][index])
+                        {
+                            test = false;
+                            //if the rawStat value is below the corresponding racial value... set test to false.
+                            goto Next;
+                        }//end of eval if stat is less than the minimum (and disqualifying)
+
+                    }//end of stat eval loop
+                Next:
+                    if (test)//if true, make an index
+                        possibleRaces.Add(playerRaces[racialIndex]);
+                }//end of racialIndex loop
+                String possibleRacesString = "Version1: ";//temporary construct
+                for (int x = 0; x < possibleRaces.Count; x++)
+                {
+                    possibleRacesString += possibleRaces[x] + "\n";
+                }//end of 
+                Console.WriteLine(possibleRacesString);//Display races available to this set.
+                validRaces.Add(possibleRaces);
+            }//end of rawStat Index loop
+
+			return "";
+		}//DetermineRaceV1
+		public static void DetermineRacesV2()
+		{
+
+
+
+
+
+
+		}//end of DetermineRacesV2
 		public static int Dice(int die)
 		{//executes one cast of the dice.
 			die++;//ups the passed value, to be max inclusive
