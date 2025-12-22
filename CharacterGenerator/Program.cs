@@ -119,7 +119,7 @@ namespace CharacterGenerator
 				}//end of switch block
 
 				DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
-
+				DetermineRacesV2();
 
 				//Eval valid classes
 				for (int rawIndex = 0;rawIndex < rawStats.Count; rawIndex++)
