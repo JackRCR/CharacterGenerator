@@ -23,11 +23,9 @@ namespace CharacterGenerator
 		private int exceptionalStrengthCapFemale;
 
 		private String statModsDesc;//Just a desc text, no funcitons performed.
-
-		
 		private int[] scoreModification = new int[6];//how stats are modified by choosing this race.
 													 //For example a dwarf would be [4]=1 && [5]=-1, reflecting Con+1 && Cha-1 respectively.  All other scores would be zeros.  Dwarf: [0,0,0,0,1,-1]
-
+													 
 		//class/level considerations
 		//any add/remove operations require syncronization. Am not segregating into a seperate class here
 		private List<CharClass> eligibleClasses = new List<CharClass>();//what classes can this race play?
@@ -52,7 +50,7 @@ namespace CharacterGenerator
 
 		//level limits?  May delay.
 		public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 
-			int exceptionalStrengthCapMale, int exceptionalStrengthCapFemale, String statModsDesc,List<int> targetScore, List<int> scoreModification) {
+			int exceptionalStrengthCapMale, int exceptionalStrengthCapFemale, String statModsDesc, int[] scoreModification) {
 			this.name = name;
 			this.racialMinimums = racialMinimums;
 			this.maleMaximums = maleMaximums; 
@@ -60,16 +58,26 @@ namespace CharacterGenerator
 			this.exceptionalStrengthCapMale = exceptionalStrengthCapMale;
 			this.exceptionalStrengthCapFemale = exceptionalStrengthCapFemale;
 			this.statModsDesc = statModsDesc;
-			this.targetScore = targetScore;
-			this.scoreModification = scoreModification;
+			//this.targetScore = targetScore;
+			//this.scoreModification = scoreModification;
 			//just the simplest of constructors.  Take and assign value.
 
 		}///end of constructor
+		public bool IsAllowed(int[] inputStats)
+        {
+            //NOTE, USED TO HAVE A RACE ASPECT TO THIS.  Removing as I think it needs to be decoupled.
+            //where this gets called has some implications now.  Probably via a Race class call
+            return inputStats[0] >= racialMinimums[0] &&
+                inputStats[1] >= racialMinimums[1] &&
+                inputStats[2] >= racialMinimums[2] &&
+                inputStats[3] >= racialMinimums[3] &&
+                inputStats[4] >= racialMinimums[4] &&
+                inputStats[5] >= racialMinimums[5];
+        }
 
 
 
 
 
-
-	}//end of class
+    }//end of class
 }//end of namespace

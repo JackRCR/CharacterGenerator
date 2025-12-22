@@ -31,7 +31,7 @@ namespace CharacterGenerator
 		//Wishes or GM fiat can overrule.  
 		//I'm CERTAIN there will be a few flaws in this logic.  This may be shelved and checked elsewhere at some other point in time.
 
-		//general notes, level limits ARE NOT IMPLEMENTED
+		//general notes, level limits ARE NOT IMPLEMENTED!!!
 		//See Man-at-arms, Summoner, Religious brother, to compare/contrast.
 		//Man-at-arms and RB are handled in a similar fashion.
 		//Summoner may require it's own class inheriting the values and overriding the attribute calculation.
