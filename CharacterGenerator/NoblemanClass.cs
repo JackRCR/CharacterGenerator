@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CharacterGenerator
 {
-	internal class NoblemanClass:CharClass
+	internal class NoblemanClass//:CharClass
 	{
+
 		
 		public NoblemanClass() {
-			
 
 
 		}//end of constructor
