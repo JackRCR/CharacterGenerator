@@ -9,27 +9,28 @@ namespace CharacterGenerator
 	{
 		private static Random rnd = new Random();
 		private static String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
-        private static List<int[]> rawStats = new List<int[]>();
+		private static List<int[]> rawStats = new List<int[]>();
         //the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
         private static List<List<String>> validRaces = new List<List<String>>();
         private static List<List<String>> validClasses = new List<List<String>>();
-        static void Main()
+		//Beginning of Racedeterminations V2.  
+		private static List<Race> settingRaces = new List<Race>();
+		private static List<CharClass> SettingClasses = new List<CharClass>();
+		static void Main()
 		{
 			Console.WriteLine("Hello World!");
 
 			//not final place, just figuring out what I needed
-			
 
-            //Beginning of Racedeterminations V2.  
-            List<Race> settingRaces = new List<Race>();
-            List<CharClass> SettingClasses = new List<CharClass>();
 
+			//Beginning of Racedeterminations V2.  
+			settingRaces.Add(new Race("Human", new int[] { 3, 3, 3, 3, 3, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 18, 18, 18, 18, 18, 18 }, 100, 50, "", new int[] { 0, 0, 0, 0, 0, 0 }));
 			settingRaces.Add(new Race("Dwarf", new int[] { 8, 3, 3, 3, 12, 3 }, new int[] { 18, 18, 18, 17, 19, 16 }, new int[] { 17, 18, 18, 17, 19, 16 }, 99, 99, "Constitution +1 Charismas -1", new int[] { 0, 0, 0, 0, 1, -1 }));
 			settingRaces.Add(new Race("Elf", new int[] { 3, 8, 3, 7, 6, 8 }, new int[] { 18, 18, 18, 19, 17, 18 }, new int[] { 16, 18, 18, 19, 17, 18 }, 75, 75, "Dexterity +1 Constitution -1", new int[] { 0, 0, 0, 1, -1, 0 }));
             settingRaces.Add(new Race("Gnomes", new int[] { 6, 7, 3, 3, 8, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 15, 18, 18, 18, 18, 18 }, 50, 50, "", new int[] { 0, 0, 0, 0, 0, 0 }));
-            settingRaces.Add(new Race("Halfling", new int[] { 6, 6, 3, 8, 10, 3 }, new int[] { 17, 18, 17, 19, 19, 18 }, new int[] { 14, 18, 17, 19, 19, 18 }, 100, 100, "Strength -1 Dexterity +1", new int[] { 1, 0, 0, 1, 0, 0 }));
+            settingRaces.Add(new Race("Halfling", new int[] { 6, 6, 3, 8, 10, 3 }, new int[] { 17, 18, 17, 19, 19, 18 }, new int[] { 14, 18, 17, 19, 19, 18 }, 0, 0, "Strength -1 Dexterity +1", new int[] { 1, 0, 0, 1, 0, 0 }));
             settingRaces.Add(new Race("Half-elf", new int[] { 3, 4, 3, 6, 6, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 17, 18, 18, 18, 18, 18 }, 90, 90, "", new int[] { 0, 0, 0, 0, 0, 0 }));
-            settingRaces.Add(new Race("Half-orc", new int[] { 6, 3, 3, 3, 13, 3 }, new int[] { 18, 17, 14, 17, 19, 12 }, new int[] { 18, 17, 14, 17, 19, 12 }, 99, 75, "Y", new int[] { 1, 0, 0, 1, 0, 0 }));
+            settingRaces.Add(new Race("Half-orc", new int[] { 6, 3, 3, 3, 13, 3 }, new int[] { 18, 17, 14, 17, 19, 12 }, new int[] { 18, 17, 14, 17, 19, 12 }, 99, 75, "", new int[] { 1, 0, 0, 1, 0, 0 }));
 
 
 			//for now, we're just going to brute force load.  Some other stuff would need to be configured into the race section if used later... but it's time to make the cutover.
@@ -118,8 +119,10 @@ namespace CharacterGenerator
 						break;
 				}//end of switch block
 
-				DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
-
+				//Deactivating
+				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
+				for(int x=0;x<rawStats.Count;x++)//forcing to step through all stored ratStat sets.
+					DetermineRacesV2(rawStats[x]);
 
 				//Eval valid classes
 				for (int rawIndex = 0;rawIndex < rawStats.Count; rawIndex++)
@@ -174,7 +177,7 @@ namespace CharacterGenerator
                     if (test)//if true, make an index
                         possibleRaces.Add(playerRaces[racialIndex]);
                 }//end of racialIndex loop
-                String possibleRacesString = "Version1: ";//temporary construct
+                String possibleRacesString = "Version1:\n";//temporary construct
                 for (int x = 0; x < possibleRaces.Count; x++)
                 {
                     possibleRacesString += possibleRaces[x] + "\n";
@@ -185,15 +188,26 @@ namespace CharacterGenerator
 
 			return "";
 		}//DetermineRaceV1
-		public static void DetermineRacesV2()
+		public static void DetermineRacesV2(int[] inputStats)
 		{
+			List<string> validRaces = new List<string>();
+			for (int index = 0; index < settingRaces.Count; index++)
+			{
+				if (settingRaces[index].IsAllowed(inputStats))
+					validRaces.Add(settingRaces[index].getName());
+			}//end of for loop
 
-
-
+			Console.WriteLine("DetermineRaceV2:");
+			for (int x = 0; x < validRaces.Count; x++)
+				Console.WriteLine(validRaces[x]);
 
 
 
 		}//end of DetermineRacesV2
+		public static void DetermineClasses()
+		{
+
+		}//end of DetermineClasses
 		public static int Dice(int die)
 		{//executes one cast of the dice.
 			die++;//ups the passed value, to be max inclusive

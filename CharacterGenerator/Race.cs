@@ -13,7 +13,7 @@ namespace CharacterGenerator
 		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to, not to be changed.
 		//think of this as more of a reference sheet for the given race.  
 		//... Racial specifics are making me think this needs to become an interface that's extended and allows polymorphism to handle the catastrophe to come.
-		String name;
+		private String name;
 		//STR, INT, WIS, DEX, CON, CHA
 		private int[] racialMinimums = new int[6];
 		//must detect for the sex of a chosen character
@@ -74,10 +74,9 @@ namespace CharacterGenerator
                 inputStats[4] >= racialMinimums[4] &&
                 inputStats[5] >= racialMinimums[5];
         }
-
-
-
-
-
+		public string getName()
+		{
+			return name;
+		}//end of name
     }//end of class
 }//end of namespace

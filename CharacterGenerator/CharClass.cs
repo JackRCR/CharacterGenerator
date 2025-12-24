@@ -9,7 +9,7 @@ namespace CharacterGenerator
 	internal class CharClass
 	{
 		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to and calc from, not to be changed.
-
+		private string name;
 		private int[] statReqs = new int[6];//States required to choose class.
 		private int hitDie;
 		//experience section
