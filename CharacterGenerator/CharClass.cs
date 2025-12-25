@@ -11,12 +11,16 @@ namespace CharacterGenerator
 		//A general note: the below attributes and variables should change little during a campaign.  This is instantiated to be referenced to and calc from, not to be changed.
 		private string name;
 		private int[] statReqs = new int[6];//States required to choose class.
-		private int hitDie;
+		//HP vars
+		private int hitDie;//what size of die
+		private int maxHD;//what level does HD cap out
+		private int additionalHP;//HP past the HD cap. <levels beyond maxHD>*additionalHP are added to the HP total
 		//experience section
 		private List<int> experienceThresholds = new List<int>();//thresholds for leveling
 		private int additionalXP;//XP require to exceed soft cap
 		private int softCap;//the softCap where xp thresholds change.
 		private int hardCap;//maximum possible level.  
+		private List<string> titles = new List<string>();
 		
 		private bool npcOnly=false;
 
@@ -36,7 +40,8 @@ namespace CharacterGenerator
 		//Man-at-arms and RB are handled in a similar fashion.
 		//Summoner may require it's own class inheriting the values and overriding the attribute calculation.
 		
-		public CharClass(int[] statReqs, int hitDie, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
+		public CharClass(string name, int[] statReqs, int hitDie, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
+			this.name = name;
 			this.statReqs = statReqs;
 			this.hitDie = hitDie;
 			this.experienceThresholds = experienceThresholds;

@@ -12,9 +12,10 @@ namespace CharacterGenerator
 		private int[] magicStatAdjs = new int[6];//a plce to track the net permanent stat effects affecting a character.  Does not track source.  May change to some other method.
 		private int[] actualStats = new int[6];//modified stat state.  May occassionally require recalcing, checking race, sex, etc.
 		
-
-		private CharClass charClass;
-		private Race race;
+		
+		private CharClass charClass;//for reference
+		private Race race;//for reference
+		
 		private int age;
 		private bool sex;//true = male, false = female
 		

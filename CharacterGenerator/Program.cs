@@ -15,7 +15,7 @@ namespace CharacterGenerator
         private static List<List<String>> validClasses = new List<List<String>>();
 		//Beginning of Racedeterminations V2.  
 		private static List<Race> settingRaces = new List<Race>();
-		private static List<CharClass> SettingClasses = new List<CharClass>();
+		private static List<CharClass> settingClasses = new List<CharClass>();//this is created to load into races
 		static void Main()
 		{
 			Console.WriteLine("Hello World!");
@@ -34,6 +34,10 @@ namespace CharacterGenerator
 
 
 			//for now, we're just going to brute force load.  Some other stuff would need to be configured into the race section if used later... but it's time to make the cutover.
+			//simple classes
+			settingClasses.Add(new CharClass("Fighter", new int[] { 9, 3, 6, 6, 7, 6 }, 8, new List<int> { 0,0,0,0,},-66,20,21));
+			//
+
 
 
 
