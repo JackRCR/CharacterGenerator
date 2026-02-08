@@ -13,6 +13,8 @@ namespace CharacterGenerator
 		private int[] statReqs = new int[6];//States required to choose class.
 		//HP vars
 		private int hitDie;//what size of die
+		private int initialdice;//how many do they start with
+		private int plusHP;//modification for Monk-type HP.
 		//MOnk/Ranger may require a rework.  
 
 
@@ -44,10 +46,12 @@ namespace CharacterGenerator
 		//Man-at-arms and RB are handled in a similar fashion.
 		//Summoner may require it's own class inheriting the values and overriding the attribute calculation.
 		
-		public CharClass(string name, int[] statReqs, int hitDie, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
+		public CharClass(string name, int[] statReqs, int hitDie, int initialDice, int plusHP, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
 			this.name = name;
 			this.statReqs = statReqs;
 			this.hitDie = hitDie;
+			this.initialdice = initialDice; ;
+			this.plusHP = plusHP;
 			this.experienceThresholds = experienceThresholds;
 			this.additionalXP = additionalXP;
 			this.softCap = softCap;
