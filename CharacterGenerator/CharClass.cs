@@ -13,6 +13,10 @@ namespace CharacterGenerator
 		private int[] statReqs = new int[6];//States required to choose class.
 		//HP vars
 		private int hitDie;//what size of die
+		//MOnk/Ranger may require a rework.  
+
+
+
 		private int maxHD;//what level does HD cap out
 		private int additionalHP;//HP past the HD cap. <levels beyond maxHD>*additionalHP are added to the HP total
 		//experience section
