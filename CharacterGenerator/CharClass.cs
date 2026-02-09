@@ -58,7 +58,7 @@ namespace CharacterGenerator
 			this.hardCap = hardCap;
 		}//end of constructor
 
-		public bool IsAllowed(int[] inputStats)
+        public bool IsAllowed(int[] inputStats)
 		{
 			//NOTE, USED TO HAVE A RACE ASPECT TO THIS.  Removing as I think it needs to be decoupled.
 			//where this gets called has some implications now.  Probably via a Race class call

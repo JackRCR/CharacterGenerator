@@ -35,26 +35,29 @@ namespace CharacterGenerator
 
 
 		private List<char> classRestrictions = new List<char>();//unused presently.  Has... issues.
-		/*this will be code based.
-		 * U==unlimited 
-		 * A==attribute limited is specified elsewhere.  Still need to flag.
-		 * <number>==specific limit
-		 * '*'==variable limits, depending on attribute and the specific class
-		 * '**'==priest specific limits
-		 * That last is going to be awful to encode.  I just know it!
-		 * Well... it'll be annoying.  
-		 * With the grouping of "super" classes into the categories of Warrior, MU, Priest, Rogue, and Monk (which may or may not be it's own thing) providing broad rules, it'll be ok.
-		 * 
-		 * OUTSTANDING QUESTION: where should this check be made?
-		 * OUTSTANDING QUESTION: are there other simplifications that can be performed?  As is, this is complicated.  Could restrictions be moved to CharClass, or otherwise checked?
-		 * 
-		 */
+
+        internal List<CharClass> EligibleClasses { get => eligibleClasses; set => eligibleClasses = value; }
+
+        /*this will be code based.
+* U==unlimited 
+* A==attribute limited is specified elsewhere.  Still need to flag.
+* <number>==specific limit
+* '*'==variable limits, depending on attribute and the specific class
+* '**'==priest specific limits
+* That last is going to be awful to encode.  I just know it!
+* Well... it'll be annoying.  
+* With the grouping of "super" classes into the categories of Warrior, MU, Priest, Rogue, and Monk (which may or may not be it's own thing) providing broad rules, it'll be ok.
+* 
+* OUTSTANDING QUESTION: where should this check be made?
+* OUTSTANDING QUESTION: are there other simplifications that can be performed?  As is, this is complicated.  Could restrictions be moved to CharClass, or otherwise checked?
+* 
+*/
 
 
 
 
-		//level limits?  May delay.
-		public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 
+        //level limits?  May delay.
+        public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 
 			int exceptionalStrengthCapMale, int exceptionalStrengthCapFemale, String statModsDesc, int[] scoreModification,List<CharClass> eligibleClasses) {
 			this.name = name;
 			this.racialMinimums = racialMinimums;
@@ -64,7 +67,7 @@ namespace CharacterGenerator
 			this.exceptionalStrengthCapFemale = exceptionalStrengthCapFemale;
 			this.statModsDesc = statModsDesc;
 			this.scoreModification = scoreModification;
-			this.eligibleClasses = eligibleClasses;
+			this.EligibleClasses = eligibleClasses;
             //just the simplest of constructors.  Take and assign value.
 
         }///end of constructor

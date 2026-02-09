@@ -11,8 +11,8 @@ namespace CharacterGenerator
 		private static String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
 		private static List<int[]> rawStats = new List<int[]>();
         //the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
-        private static List<List<String>> validRaces = new List<List<String>>();
-        private static List<List<String>> validClasses = new List<List<String>>();
+        private static List<Race> validRaces = new List<Race>();
+        private static List<CharClass> validClasses = new List<CharClass>();
 		//Beginning of Racedeterminations V2.  
 		private static List<Race> settingRaces = new List<Race>();
 		private static List<CharClass> settingClasses = new List<CharClass>();//this is created to load into races
@@ -51,10 +51,10 @@ namespace CharacterGenerator
             settingRaces.Add(new Race("Halfling", new int[] { 6, 6, 3, 8, 10, 3 }, new int[] { 17, 18, 17, 19, 19, 18 }, new int[] { 14, 18, 17, 19, 19, 18 }, 0, 0, "Strength -1 Dexterity +1", new int[] { 1, 0, 0, 1, 0, 0 }, new List<CharClass> { settingClasses[0], settingClasses[6], settingClasses[7], settingClasses[10], settingClasses[11], settingClasses[12] }));
             settingRaces.Add(new Race("Half-elf", new int[] { 3, 4, 3, 6, 6, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 17, 18, 18, 18, 18, 18 }, 90, 90, "", new int[] { 0, 0, 0, 0, 0, 0 }, new List<CharClass> { settingClasses[0], settingClasses[2], settingClasses[4], settingClasses[5], settingClasses[6], settingClasses[9], settingClasses[8], settingClasses[11], settingClasses[12]}));
             settingRaces.Add(new Race("Half-orc", new int[] { 6, 3, 3, 3, 13, 3 }, new int[] { 18, 17, 14, 17, 19, 12 }, new int[] { 18, 17, 14, 17, 19, 12 }, 99, 75, "", new int[] { 1, 0, 0, 1, 0, 0 }, new List<CharClass> { settingClasses[0], settingClasses[6], settingClasses[8], settingClasses[9], settingClasses[11], settingClasses[12] }));
-            
-            //how to reference in the class relations dynamically?
-            //Would JUST the name of the class work?  Use that as the hook to reference the settingClasses available?
 
+			//how to reference in the class relations dynamically?
+			//Would JUST the name of the class work?  Use that as the hook to reference the settingClasses available?
+			settingRaces[0].EligibleClasses[0].IsAllowed( new int[] { 18,18,18,18,18,18});
 
 
 
@@ -142,8 +142,14 @@ namespace CharacterGenerator
 
 				//Deactivating
 				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
-				for(int x=0;x<rawStats.Count;x++)//forcing to step through all stored ratStat sets.
+				for(int x=0;x<rawStats.Count;x++)//forcing to step through ALL stored rawStat sets.  This is not stepping through individual stats
 					DetermineRacesV2(rawStats[x]);
+
+
+
+
+
+
 
 				//Eval valid classes
 				for (int rawIndex = 0;rawIndex < rawStats.Count; rawIndex++)
