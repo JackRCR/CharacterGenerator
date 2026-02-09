@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using System.Xml;
 using System.Text.Json;
+using System.Xml;
+using static System.Collections.Specialized.BitVector32;
 
 namespace CharacterGenerator
 {
@@ -10,8 +11,8 @@ namespace CharacterGenerator
 		private static Random rnd = new Random();
 		private static String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
 		private static List<int[]> rawStats = new List<int[]>();
-        //the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
-        private static List<Race> validRaces = new List<Race>();
+		//the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
+		private static List<Race> validRaces=null;
         private static List<CharClass> validClasses = new List<CharClass>();
 		//Beginning of Racedeterminations V2.  
 		private static List<Race> settingRaces = new List<Race>();
@@ -143,8 +144,10 @@ namespace CharacterGenerator
 				//Deactivating
 				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
 				for(int x=0;x<rawStats.Count;x++)//forcing to step through ALL stored rawStat sets.  This is not stepping through individual stats
-					DetermineRacesV2(rawStats[x]);
+					validRaces = DetermineRacesV2(rawStats[x]);
+				//There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
 
+				SelectRace(validRaces);
 
 
 
@@ -210,27 +213,52 @@ namespace CharacterGenerator
                     possibleRacesString += possibleRaces[x] + "\n";
                 }//end of 
                 Console.WriteLine(possibleRacesString);//Display races available to this set.
-                validRaces.Add(possibleRaces);
+                //validRaces.Add(possibleRaces);Suppressing errors.
             }//end of rawStat Index loop
 
 			return "";
 		}//DetermineRaceV1
-		public static void DetermineRacesV2(int[] inputStats)
+		public static List<Race> DetermineRacesV2(int[] inputStats)
 		{
-			List<string> validRaces = new List<string>();
+			List<Race> valids = new List<Race>();
 			for (int index = 0; index < settingRaces.Count; index++)
 			{
 				if (settingRaces[index].IsAllowed(inputStats))
-					validRaces.Add(settingRaces[index].getName());
+					valids.Add(settingRaces[index]);
 			}//end of for loop
 
 			Console.WriteLine("DetermineRaceV2:");
-			for (int x = 0; x < validRaces.Count; x++)
-				Console.WriteLine(validRaces[x]);
+			//for debug purposes, display what was collected.
+			for (int x = 0; x < valids.Count; x++)
+				Console.WriteLine(valids[x].getName());
 
-
+			return valids;
 
 		}//end of DetermineRacesV2
+		public static Race SelectRace(List <Race> candidates)
+		{
+			for (int index = 0; index < candidates.Count; index++)
+			{
+				Console.WriteLine((index+1) + ": " + candidates[index].getName());
+            }//list out all the valid races.
+			 //Prompt for input (want to be able to take multiple digits.
+			
+			//Detect for and discard INVALID entries
+			while (true)
+			{
+                Console.Write("Make a selection (numpad): ");
+                int selection = -1;
+				int.TryParse(Console.ReadLine(), out selection);
+				if (selection < 0 || selection > candidates.Count)
+					Console.WriteLine("Out of bounds selection.  Try again.");
+				else 
+					break;
+			}//end of entry loop.
+			Console.WriteLine("escape success");
+
+
+            return null;
+		}//end of 
 		public static void DetermineClasses()
 		{
 
