@@ -28,7 +28,12 @@ namespace CharacterGenerator
 													 
 		//class/level considerations
 		//any add/remove operations require syncronization. Am not segregating into a seperate class here
-		private List<CharClass> eligibleClasses = new List<CharClass>();//what classes can this race play?
+		private List<CharClass> eligibleClasses = new List<CharClass>();//"what classes can this race play?"
+		//This is a REFERENCE list.  Tying these together is giong to be... tricky, on load, as this is storing memory references.
+		//Storing and rebuilding these are gonna suck
+
+
+
 		private List<char> classRestrictions = new List<char>();//unused presently.  Has... issues.
 		/*this will be code based.
 		 * U==unlimited 
@@ -50,7 +55,7 @@ namespace CharacterGenerator
 
 		//level limits?  May delay.
 		public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 
-			int exceptionalStrengthCapMale, int exceptionalStrengthCapFemale, String statModsDesc, int[] scoreModification) {
+			int exceptionalStrengthCapMale, int exceptionalStrengthCapFemale, String statModsDesc, int[] scoreModification,List<CharClass> eligibleClasses) {
 			this.name = name;
 			this.racialMinimums = racialMinimums;
 			this.maleMaximums = maleMaximums; 
@@ -58,11 +63,11 @@ namespace CharacterGenerator
 			this.exceptionalStrengthCapMale = exceptionalStrengthCapMale;
 			this.exceptionalStrengthCapFemale = exceptionalStrengthCapFemale;
 			this.statModsDesc = statModsDesc;
-			//this.targetScore = targetScore;
-			//this.scoreModification = scoreModification;
-			//just the simplest of constructors.  Take and assign value.
+			this.scoreModification = scoreModification;
+			this.eligibleClasses = eligibleClasses;
+            //just the simplest of constructors.  Take and assign value.
 
-		}///end of constructor
+        }///end of constructor
 		public bool IsAllowed(int[] inputStats)
         {
             //NOTE, USED TO HAVE A RACE ASPECT TO THIS.  Removing as I think it needs to be decoupled.
