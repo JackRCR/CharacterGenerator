@@ -25,8 +25,15 @@ namespace CharacterGenerator
 			
 		}//end of constructor
 
+        public int[] RawStats { get => rawStats; set => rawStats = value; }
+        public int[] MagicStatAdjs { get => magicStatAdjs; set => magicStatAdjs = value; }
+        public int[] ActualStats { get => actualStats; set => actualStats = value; }
+        public int Age { get => age; set => age = value; }
+        public  CharClass CharClass { get => charClass; set => charClass = value; }
+        public Race Race { get => race; set => race = value; }
+        public bool Sex { get => sex; set => sex = value; }
 
-		public void StatReCalc()
+        public void StatReCalc()
 		{//recalc actualStats as they change.
 			/* 
 			 * Rules:
@@ -42,5 +49,9 @@ namespace CharacterGenerator
 			 */
 
 		}//end of StatRecalc
+		public string toString()
+		{
+			return "Class: " + charClass.Name + " Race: " + race.Name;
+		}//end of 
 	}//end of class
 }//end of namespace

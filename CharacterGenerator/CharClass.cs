@@ -47,27 +47,45 @@ namespace CharacterGenerator
 		//Summoner may require it's own class inheriting the values and overriding the attribute calculation.
 		
 		public CharClass(string name, int[] statReqs, int hitDie, int initialDice, int plusHP, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
-			this.name = name;
-			this.statReqs = statReqs;
-			this.hitDie = hitDie;
-			this.initialdice = initialDice; ;
-			this.plusHP = plusHP;
-			this.experienceThresholds = experienceThresholds;
-			this.additionalXP = additionalXP;
-			this.softCap = softCap;
-			this.hardCap = hardCap;
+			this.Name = name;
+			this.StatReqs = statReqs;
+			this.HitDie = hitDie;
+			this.Initialdice = initialDice; ;
+			this.PlusHP = plusHP;
+			this.ExperienceThresholds = experienceThresholds;
+			this.AdditionalXP = additionalXP;
+			this.SoftCap = softCap;
+			this.HardCap = hardCap;
 		}//end of constructor
+
+        public string Name { get => name; set => name = value; }
+        public int[] StatReqs { get => statReqs; set => statReqs = value; }
+        public int HitDie { get => hitDie; set => hitDie = value; }
+        public int Initialdice { get => initialdice; set => initialdice = value; }
+        public int PlusHP { get => plusHP; set => plusHP = value; }
+        public int MaxHD { get => maxHD; set => maxHD = value; }
+        public int AdditionalHP { get => additionalHP; set => additionalHP = value; }
+        public List<int> ExperienceThresholds { get => experienceThresholds; set => experienceThresholds = value; }
+        public int AdditionalXP { get => additionalXP; set => additionalXP = value; }
+        public int SoftCap { get => softCap; set => softCap = value; }
+        public int HardCap { get => hardCap; set => hardCap = value; }
+        public List<string> Titles { get => titles; set => titles = value; }
+        public bool NpcOnly { get => npcOnly; set => npcOnly = value; }
+        public bool AttributeLimited { get => attributeLimited; set => attributeLimited = value; }
+        public int[] Attributes { get => attributes; set => attributes = value; }
+        public int[] Baseline { get => baseline; set => baseline = value; }
+        public int[] Threshold { get => threshold; set => threshold = value; }
 
         public bool IsAllowed(int[] inputStats)
 		{
 			//NOTE, USED TO HAVE A RACE ASPECT TO THIS.  Removing as I think it needs to be decoupled.
 			//where this gets called has some implications now.  Probably via a Race class call
-			return inputStats[0] >= statReqs[0] &&
-				inputStats[1] >= statReqs[1] &&
-				inputStats[2] >= statReqs[2] &&
-				inputStats[3] >= statReqs[3] &&
-				inputStats[4] >= statReqs[4] &&
-				inputStats[5] >= statReqs[5];
+			return inputStats[0] >= StatReqs[0] &&
+				inputStats[1] >= StatReqs[1] &&
+				inputStats[2] >= StatReqs[2] &&
+				inputStats[3] >= StatReqs[3] &&
+				inputStats[4] >= StatReqs[4] &&
+				inputStats[5] >= StatReqs[5];
 		}
 
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Xml;
@@ -17,6 +18,7 @@ namespace CharacterGenerator
 		//Beginning of Racedeterminations V2.  
 		private static List<Race> settingRaces = new List<Race>();
 		private static List<CharClass> settingClasses = new List<CharClass>();//this is created to load into races
+
 		static void Main()
 		{
 			Console.WriteLine("Hello World!");
@@ -25,8 +27,8 @@ namespace CharacterGenerator
 
 			//for now, we're just going to brute force load.  Some other stuff would need to be configured into the race section if used later... but it's time to make the cutover.
 			//simple classes, EG those that don't require wonky requirement programming
-			
-			
+
+			Character urist = new Character();
 			
 			settingClasses.Add(new CharClass("Fighter", new int[] { 9, 3, 6, 6, 7, 6 }, 10, 1, 0, new List<int> {2000, 4000, 8000, 18000, 35000, 70000, 125000, 250000, 500000, 750000},250000,10,99));
 			settingClasses.Add(new CharClass("Paladin", new int[] { 12, 9, 13, 6, 9, 17 }, 10,1, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000, 975000, 1300000 }, 325000, 12, 99));
@@ -145,20 +147,14 @@ namespace CharacterGenerator
 				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
 				for(int x=0;x<rawStats.Count;x++)//forcing to step through ALL stored rawStat sets.  This is not stepping through individual stats
 					validRaces = DetermineRacesV2(rawStats[x]);
-				//There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
+                //There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
 
-				SelectRace(validRaces);
+                urist.Race=(SelectRace(validRaces));//This works.  
 
+				urist.CharClass=DetermineClasses(urist.Race, rawStats[0]);
 
-
-
-
-
-				//Eval valid classes
-				for (int rawIndex = 0;rawIndex < rawStats.Count; rawIndex++)
-				{
-					//UNIMPLMENETED
-				}//end of rawSTatIndex loop
+				Console.WriteLine(urist.toString());
+				
 
 
 
@@ -230,7 +226,7 @@ namespace CharacterGenerator
 			Console.WriteLine("DetermineRaceV2:");
 			//for debug purposes, display what was collected.
 			for (int x = 0; x < valids.Count; x++)
-				Console.WriteLine(valids[x].getName());
+				Console.WriteLine(valids[x].Name);
 
 			return valids;
 
@@ -239,7 +235,7 @@ namespace CharacterGenerator
 		{
 			for (int index = 0; index < candidates.Count; index++)
 			{
-				Console.WriteLine((index+1) + ": " + candidates[index].getName());
+				Console.WriteLine((index+1) + ": " + candidates[index].Name);
             }//list out all the valid races.
 			 //Prompt for input (want to be able to take multiple digits.
 			
@@ -249,18 +245,49 @@ namespace CharacterGenerator
                 Console.Write("Make a selection (numpad): ");
                 int selection = -1;
 				int.TryParse(Console.ReadLine(), out selection);
-				if (selection < 0 || selection > candidates.Count)
+
+				if (selection < 1 || selection > candidates.Count)
 					Console.WriteLine("Out of bounds selection.  Try again.");
-				else 
-					break;
-			}//end of entry loop.
-			Console.WriteLine("escape success");
-
-
-            return null;
+				else
+                    return candidates[selection - 1];
+            }//end of entry loop.
+			
 		}//end of 
-		public static void DetermineClasses()
+		public static CharClass DetermineClasses(Race race, int[] rawStats)
 		{
+			//First must determine valid classes
+			//Then prompt user for selection, the easier of the two to program.
+			List <CharClass> allowed = new List<CharClass>();
+			for (int index = 0; index < race.EligibleClasses.Count; index++)
+			{
+				if (race.EligibleClasses[index].IsAllowed(rawStats) == true)
+					allowed.Add(race.EligibleClasses[index]);
+
+			}//end of for loop winnowing allowed classes
+
+
+			//Prompt for selections
+			for (int index = 0; index <allowed.Count; index++)
+			{
+				Console.WriteLine((index + 1) + ": " + allowed[index].Name);
+			}//end of listing
+
+
+			//the below is copied, need to check logic
+            //Detect for and discard INVALID entries
+            while (true)
+            {
+                Console.Write("Make a selection (numpad): ");
+                int selection = -1;
+                int.TryParse(Console.ReadLine(), out selection);
+
+                if (selection < 1 || selection > allowed.Count)
+                    Console.WriteLine("Out of bounds selection.  Try again.");
+                else
+                    return allowed[selection - 1];
+            }//end of entry loop.
+
+
 
 		}//end of DetermineClasses
 		public static int Dice(int die)
