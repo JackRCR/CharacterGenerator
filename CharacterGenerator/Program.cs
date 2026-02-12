@@ -100,6 +100,7 @@ namespace CharacterGenerator
 				Console.WriteLine(
 					"Welcome to Carefulrogue's Character Generator!\n" +
 					"Based on Lance and Tome version acquired April 2025.  Thanks Rick!\n" +
+					"Not all classes have been implemented, and no NPC-ony classes.\n" +
 					"To begin, select a method (numpad):\n" +
 					"1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.\n" +
 					"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
@@ -145,13 +146,32 @@ namespace CharacterGenerator
 
 				//Deactivating
 				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
-				for(int x=0;x<rawStats.Count;x++)//forcing to step through ALL stored rawStat sets.  This is not stepping through individual stats
-					validRaces = DetermineRacesV2(rawStats[x]);
+				//Select set
+				if (rawStats.Count > 1)//testing/future proofing
+				{
+					Console.WriteLine("Select set:\n" +
+                        " STR INT WIS DEX CON CHA");
+					for (int x = 0; x < rawStats.Count; x++)
+					{
+						string format="";
+						for (int y = 0; y < rawStats[x].Length; y++)
+						{
+							format += rawStats[x][y].ToString().PadLeft(4);
+
+                        }//end of inner for
+							Console.WriteLine(format);
+					}//end of outer for
+				}//end of if
+				else
+					selectedSet = 0;
+
+
+				validRaces = DetermineRacesV2(rawStats[selectedSet]);
                 //There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
 
                 urist.Race=(SelectRace(validRaces));//This works.  
 
-				urist.CharClass=DetermineClasses(urist.Race, rawStats[0]);
+				urist.CharClass=DetermineClasses(urist.Race, rawStats[selectedSet]);
 
 				Console.WriteLine(urist.toString());
 				

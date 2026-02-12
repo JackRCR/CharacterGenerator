@@ -15,10 +15,7 @@ namespace CharacterGenerator
 		private int hitDie;//what size of die
 		private int initialdice;//how many do they start with
 		private int plusHP;//modification for Monk-type HP.
-		//MOnk/Ranger may require a rework.  
-
-
-
+		
 		private int maxHD;//what level does HD cap out
 		private int additionalHP;//HP past the HD cap. <levels beyond maxHD>*additionalHP are added to the HP total
 		//experience section
@@ -50,7 +47,7 @@ namespace CharacterGenerator
 			this.Name = name;
 			this.StatReqs = statReqs;
 			this.HitDie = hitDie;
-			this.Initialdice = initialDice; ;
+			this.Initialdice = initialDice;
 			this.PlusHP = plusHP;
 			this.ExperienceThresholds = experienceThresholds;
 			this.AdditionalXP = additionalXP;
