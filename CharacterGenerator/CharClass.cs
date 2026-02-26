@@ -34,14 +34,22 @@ namespace CharacterGenerator
 								 //just specify 0-5 WHICH of the six stats they are to check the statReq with an index.
 		private int[] baseline;//
 		private int[] threshold;//For however many 'attributes' there are, define the floor threshold.
-		//The simple variant of calcing levellimits is "Stat-threshold=additional_levels+baseline==ActualLimit/BookLimit"
-		//Wishes or GM fiat can overrule.  
-		//I'm CERTAIN there will be a few flaws in this logic.  This may be shelved and checked elsewhere at some other point in time.
+								//The simple variant of calcing levellimits is "Stat-threshold=additional_levels+baseline==ActualLimit/BookLimit"
+								//Wishes or GM fiat can overrule.  
+								//I'm CERTAIN there will be a few flaws in this logic.  This may be shelved and checked elsewhere at some other point in time.
 
 		//general notes, level limits ARE NOT IMPLEMENTED!!!
 		//See Man-at-arms, Summoner, Religious brother, to compare/contrast.
 		//Man-at-arms and RB are handled in a similar fashion.
 		//Summoner may require it's own class inheriting the values and overriding the attribute calculation.
+
+		public record CharacterAbilities(
+			int Strength,
+			int Intelligence,
+			int Wisdom,
+			int Dexterity,
+			int Constitution,
+			int Charisma);//this is a proposal, not sure how to use.
 		
 		public CharClass(string name, int[] statReqs, int hitDie, int initialDice, int plusHP, List<int>experienceThresholds, int additionalXP, int softCap, int hardCap) {
 			this.Name = name;
@@ -75,8 +83,7 @@ namespace CharacterGenerator
 
         public bool IsAllowed(int[] inputStats)
 		{
-			//NOTE, USED TO HAVE A RACE ASPECT TO THIS.  Removing as I think it needs to be decoupled.
-			//where this gets called has some implications now.  Probably via a Race class call
+			//Note, this is the "simple" version.  
 			return inputStats[0] >= StatReqs[0] &&
 				inputStats[1] >= StatReqs[1] &&
 				inputStats[2] >= StatReqs[2] &&

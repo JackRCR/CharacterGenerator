@@ -38,6 +38,7 @@ namespace CharacterGenerator
 			/* 
 			 * Rules:
 			 * A stat canot exceed a Class or Race minimum or maximum via "mundane" methods.  
+			 *		There could be complications with AdvancedWarrior classes
 			 * 
 			 * Procedure:
 			 * 1. Apply racial adjustments

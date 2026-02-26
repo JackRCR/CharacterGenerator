@@ -8,7 +8,7 @@ namespace CharacterGenerator
 {
 	internal class NoblemanClass//:CharClass
 	{
-
+		
 		
 		public NoblemanClass() {
 

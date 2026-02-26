@@ -78,9 +78,10 @@ namespace CharacterGenerator
 			//6. Class selection:
 			//6a Multi-class combinations need to be dealt with in some fashion.
 			//7. Roll hitpoints
-			//8. Rolls for height, weight, age, background (all are things I'm inclined to use to a degree.)
-			//9. initial money
-			//10 Weapons proficiency guidelines
+			//8. Prompt for sex selection.
+			//9. Rolls for height, weight, age, background (all are things I'm inclined to use to a degree.)
+			//10. initial money
+			//11. Weapons proficiency guidelines
 
 			/* ORDER OF OPERATIONS
 			 * 1. Present methods
@@ -165,6 +166,8 @@ namespace CharacterGenerator
 				else
 					selectedSet = 0;
 
+				
+
 
 				validRaces = DetermineRacesV2(rawStats[selectedSet]);
                 //There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
@@ -174,11 +177,20 @@ namespace CharacterGenerator
 				urist.CharClass=DetermineClasses(urist.Race, rawStats[selectedSet]);
 
 				Console.WriteLine(urist.toString());
+                Console.WriteLine("Select Sex:\n" +
+                    "1. Male\n" +
+                    "2. Female");
 				
+				selection=0;
+                int.TryParse(Console.ReadLine(), out selection);
+				if (selection != 1)
+					urist.Sex = false;
+
+				//random determinations for race/class variables.
 
 
 
-				Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
+                Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
 			}//end of while(true)
 		}//end of main
 
