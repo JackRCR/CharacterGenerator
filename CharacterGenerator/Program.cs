@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Design;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Xml;
@@ -7,10 +8,19 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace CharacterGenerator
 {
-	internal class Program
+    struct AdvancedClassStatDefinitions
+    {
+		//placement here to allow instantiation and use across relevant classes
+        public int[] statIDs;//ID the stats that have a threshold.
+                             //stat IDs are dogmatically ["STR","INT","WIS","DEX","CON","CHA"].  Can't figure out any other way to do this.
+        public int threshold;//What the IDed stats must meet or exceed to be "counted"
+        public int numOfConditionals;//number of stats that need to meet/exceed threshold to pass.
+
+    }
+    internal class Program
 	{
 		private static Random rnd = new Random();
-		private static String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
+		private static readonly String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
 		private static List<int[]> rawStats = new List<int[]>();
 		//the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
 		private static List<Race> validRaces=null;
@@ -19,7 +29,8 @@ namespace CharacterGenerator
 		private static List<Race> settingRaces = new List<Race>();
 		private static List<CharClass> settingClasses = new List<CharClass>();//this is created to load into races
 
-		static void Main()
+        
+        static void Main()
 		{
 			Console.WriteLine("Hello World!");
 
