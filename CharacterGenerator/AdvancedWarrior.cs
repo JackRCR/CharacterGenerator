@@ -16,7 +16,7 @@ namespace CharacterGenerator
         public int threshold;//What the IDed stats must meet or exceed to be "counted"
         public int numOfConditionals;//number of stats that need to meet/exceed threshold to pass.
         public int[][] fixedStatIDsAndThresholds = new int[2][];//int[0][] = stat position; int[1][]=thresholds
-        /*
+        /* ORDER FUCKING MATTERS
         * EG: 
         * [0][0]=cha
         * [1][0]=13
@@ -60,18 +60,44 @@ namespace CharacterGenerator
         public new bool IsAllowed(int[] inputStats)
         {
             //overrides CharClass method.
-            if (base.IsAllowed(inputStats))//Check the parent class, for an explicit set, if there's a static threshold that is established, a la the barbarian
+            if (base.IsAllowed(inputStats))
+            //Check the parent class, for an explicit set, if there's a static threshold that is established, a la the barbarian
             {
                 return true;
             }//but, if there isn't ...
             else
             {
+                
+                //OVERHAUL IN PROGRESS
+                //TODO:
+                /* 
+                * test
+                * add notes to make it abundantly clear to myself what the heck I'm thinking here.
+                * test again.  Check against the three classes that are most likely to cause issues.
+                */ 
+                
+                //First, count the threshold stats.
                 int count = 0;
                 for (int x = 0; x < requirements.statIDs.Length; x++)
                 {
-                    if (inputStats[requirements.statIDs[x]] >= requirements.threshold)
-                            count++;
-                }//
+                    //locate the stats, retrieve the first value, 
+                    // check against the inputStat entry corresponding with that index, against the threshold.
+                    if (inputStats[requirements.statIDs[x]]>=requirements.threshold)
+                        count++;//count if pass
+                    else if (inputStats[requirements.statIDs[x]]<statFloor)
+                        return false;//stat is not just below threshold, but below the stat floor, and is ineligible
+                    Console.WriteLine("Count: "+count);//debugging
+
+                }
+                //Second, check the static requirements are achived
+                for (int x = 0; x < requirements.fixedStatIDsAndThresholds.Length; x++)
+                {
+                    
+                    if (inputStats[requirements.fixedStatIDsAndThresholds[0][x]<requirements.fixedStatIDsAndThresholds[1][x]])
+                        return false;//and if you don't reach, fail out.
+                        //THIS WILL REQUIRE A FAIR BIT OF TESTING
+                }
+
                 if (count>=requirements.numOfConditionals)
                     return true;//pass
                 else
