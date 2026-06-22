@@ -8,15 +8,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace CharacterGenerator
 {
-    struct AdvancedClassStatDefinitions
-    {
-		//placement here to allow instantiation and use across relevant classes
-        public int[] statIDs;//ID the stats that have a threshold.
-                             //stat IDs are dogmatically ["STR","INT","WIS","DEX","CON","CHA"].  Can't figure out any other way to do this.
-        public int threshold;//What the IDed stats must meet or exceed to be "counted"
-        public int numOfConditionals;//number of stats that need to meet/exceed threshold to pass.
-
-    }
+    
     internal class Program
 	{
 		private static Random rnd = new Random();
@@ -55,6 +47,9 @@ namespace CharacterGenerator
 			settingClasses.Add(new CharClass("Spy", new int[] { 6, 13, 9, 11, 6, 14 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
 			settingClasses.Add(new CharClass("Thief", new int[] { 6, 6, 3, 9, 6, 3 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
 			settingClasses.Add(new CharClass("Monk", new int[] { 15, 6, 15, 15, 11, 6 }, 4, 1, 1, new List<int> { 2250, 4750, 10000, 22500, 47500, 98000, 200000, 350000, 500000, 700000, 950000, 1250000, 1750000, 2250000, 2750000, 3250000 }, 0, 16, 17));//monk is edge case for HP
+			settingClasses.Add(new AdvancedWarrior("Barbarian", new int[] { 10, 9, 9, 9, 10, 9 }, 8, 2, 0, new List<int> { 2500, 5000, 11000, 22000, 42500, 92500, 165000, 300000, 500000, 825000 }, 325000, 10, 99, new AdvancedClassStatDefinitions(new int[] { 1, 2, 3, 5 }, 11, 3, new int[] { 0, 4 }, new int[] { 10, 10 })));
+			settingClasses.Add(new AdvancedWarrior("Nobleman", new int[] { 18,18,18,18,18,18}, 8, 1, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000, 975000, 1300000 }, 325000, 12, 99, new AdvancedClassStatDefinitions(new int[] { 0, 1, 2 }, 12, 1, new int[] { 3, 4, 5 }, new int[] { 6, 6, 13 })));
+			settingClasses.Add(new AdvancedWarrior("Soldier", new int[] { 18, 18, 18, 18, 18, 18 }, 8, 2, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000 }, 325000, 10, 99, new AdvancedClassStatDefinitions(new int[] { 1, 2, 3, 5 }, 10, 2, new int[] { 0, 4 }, new int[] { 9, 10 })));
 
             //the monk is another edge case, this time for HP
             //Beginning of Racedeterminations V2.  

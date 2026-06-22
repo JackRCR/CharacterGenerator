@@ -8,23 +8,45 @@ using System.Xml.Linq;
 
 namespace CharacterGenerator
 {
+    struct AdvancedClassStatDefinitions
+    {
+        //placement here to allow instantiation and use across relevant classes
+        public int[] statIDs;//ID the stats that have a threshold.
+                             //stat IDs are dogmatically ["STR","INT","WIS","DEX","CON","CHA"].  Can't figure out any other way to do this.
+        public int threshold;//What the IDed stats must meet or exceed to be "counted"
+        public int numOfConditionals;//number of stats that need to meet/exceed threshold to pass.
+        public int[][] fixedStatIDsAndThresholds = new int[2][];//int[0][] = stat position; int[1][]=thresholds
+        /*
+        * EG: 
+        * [0][0]=cha
+        * [1][0]=13
+        * [0][1]=con
+        * [1][1]=6
+        * 
+        * Etc.
+        * May rewrite to be less confusing, but FOR NOW, is good.
+        */
+        public AdvancedClassStatDefinitions(int[] statIDs, int threshold, int numOfConditionals, int[] statPositions, int[] statValues)
+        {
+            this.statIDs = statIDs;
+            this.threshold = threshold;
+            this.numOfConditionals = numOfConditionals;
+            this.fixedStatIDsAndThresholds[0] = statPositions;
+            this.fixedStatIDsAndThresholds[1] = statValues;
+        }//end of constructor
+
+        
+
+    }//end of struct
     internal class AdvancedWarrior:CharClass
     {
         //For classes with more complex requirements or combinations.  
         //not quite sure how to implement.  Not sure if possible to implement in one swift action.  
 
-
-
-
-
         //make this a strut
-        int statFloor = 6;//hard coded, doesn't matter what stat it applies to.
         
-       private AdvancedClassStatDefinitions requirements;
-
-
-        //int[] bonus XP thresholds//no idea how to detect elegately.
-        //probably belongs in the baseCharClass
+        private AdvancedClassStatDefinitions requirements;
+        int statFloor = 6;
 
 
 
@@ -33,7 +55,7 @@ namespace CharacterGenerator
             base(name, statReqs, hitDie, initialDice, plusHP, experienceThresholds, additionalXP, softCap, hardCap)
         {
             this.requirements = requirements;
-
+            
         }//end of constructor
         public new bool IsAllowed(int[] inputStats)
         {
