@@ -64,6 +64,7 @@ namespace CharacterGenerator
             /*
              * First, check if there is any simple stat set that can be checked against (base.IsAllowed()).
              * Second, tally the requirement stats, and compare against threshold.
+             * Second-B, check the stats taht don't meet the threshold don't fall below the StatFloor
              * Third, check the static requirements are achived
              * 
              */
