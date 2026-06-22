@@ -81,8 +81,9 @@ namespace CharacterGenerator
         public int[] Baseline { get => baseline; set => baseline = value; }
         public int[] Threshold { get => threshold; set => threshold = value; }
 
-        public bool IsAllowed(int[] inputStats)
+        public virtual bool IsAllowed(int[] inputStats)
 		{
+			//Console.WriteLine("CharClass IsAllowed Firing");
 			//Note, this is the "simple" version.  
 			return inputStats[0] >= StatReqs[0] &&
 				inputStats[1] >= StatReqs[1] &&
