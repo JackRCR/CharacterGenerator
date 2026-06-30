@@ -33,28 +33,10 @@ namespace CharacterGenerator
 
 			Character urist = new Character();
 			
-			settingClasses.Add(new CharClass("Fighter", new int[] { 9, 3, 6, 6, 7, 6 }, 10, 1, 0, new List<int> {2000, 4000, 8000, 18000, 35000, 70000, 125000, 250000, 500000, 750000},250000,10,99));
-			settingClasses.Add(new CharClass("Paladin", new int[] { 12, 9, 13, 6, 9, 17 }, 10,1, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000, 975000, 1300000 }, 325000, 12, 99));
-			settingClasses.Add(new CharClass("Ranger", new int[] { 13, 13, 14, 6, 14, 6 }, 8, 2, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000 }, 325000, 10, 99));//Ranger is edge case for HP
-			settingClasses.Add(new CharClass("Illusionist", new int[] { 3, 15, 6, 16, 3, 6 }, 4, 1, 0, new List<int> { 2250, 4500, 9000, 18000, 35000, 60000, 95000, 145000, 220000, 440000 },220000,10, 99));
-			settingClasses.Add(new CharClass("Mage", new int[] { 3, 9, 6, 6, 3, 6 }, 4, 1, 0, new List<int> { 2500, 5000, 10000, 22500, 40000, 60000, 90000, 135000, 250000, 375000, 750000 }, 375000, 11, 99));
-			settingClasses.Add(new CharClass("Scholar", new int[] { 3, 12, 10, 6, 3, 6 },4, 1, 0, new List<int> { 2250, 4500, 9000, 18000, 35000, 60000, 95000, 145000, 220000, 440000 }, 220000, 10, 99));
-			settingClasses.Add(new CharClass("Cleric", new int[] { 6, 6, 9, 3, 6, 6 }, 8, 1, 0, new List<int> { 1500, 3000, 6000, 13000, 27500, 55000, 110000, 225000, 450000, 675000 }, 225000, 10, 99));
-			settingClasses.Add(new CharClass("Druid", new int[] { 6, 6, 12, 3, 6, 15 }, 8, 1, 0, new List<int> { 2000, 4000, 7500, 12500, 20000, 35000, 60000, 90000, 125000, 200000, 300000, 750000, 1500000, 3000000 }, 0,14, 15));
-            settingClasses.Add(new CharClass("Bard", new int[] { 8, 12, 12, 15, 8, 14 }, 6, 1, 0, new List<int>{ 2000, 4000, 8000, 16000, 33000, 67000, 135000, 270000, 500000, 750000, 1000000, 1300000, 1600000, 1900000, 2250000, 2600000, 2950000, 3300000, 3700000, 4150000, 4650000, 5400000 },0,22,23));
-			settingClasses.Add(new CharClass("Assassin", new int[] { 12, 11, 3, 12, 6, 3 }, 6, 1, 0, new List<int> { 1500, 3000, 6000, 12000, 25000, 50000, 100000, 200000, 300000, 425000, 575000, 750000, 1000000, 1500000 }, 0, 14, 15));
-			settingClasses.Add(new CharClass("Scout", new int[] { 8, 11, 3, 11, 6, 3 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
-			settingClasses.Add(new CharClass("Spy", new int[] { 6, 13, 9, 11, 6, 14 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
-			settingClasses.Add(new CharClass("Thief", new int[] { 6, 6, 3, 9, 6, 3 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
-			settingClasses.Add(new CharClass("Monk", new int[] { 15, 6, 15, 15, 11, 6 }, 4, 1, 1, new List<int> { 2250, 4750, 10000, 22500, 47500, 98000, 200000, 350000, 500000, 700000, 950000, 1250000, 1750000, 2250000, 2750000, 3250000 }, 0, 16, 17));//monk is edge case for HP
-			
-			settingClasses.Add(new AdvancedWarrior("Barbarian", new int[] { 10, 9, 9, 9, 10, 9 }, 8, 2, 0, new List<int> { 2500, 5000, 11000, 22000, 42500, 92500, 165000, 300000, 500000, 825000 }, 325000, 10, 99, new AdvancedClassStatDefinitions(new int[] { 1, 2, 3, 5 }, 11, 3, new int[] { 0, 4 }, new int[] { 10, 10 })));
-			settingClasses.Add(new AdvancedWarrior("Nobleman", new int[] { 18,18,18,18,18,18}, 8, 1, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000, 975000, 1300000 }, 325000, 12, 99, new AdvancedClassStatDefinitions(new int[] { 0, 1, 2 }, 12, 1, new int[] { 3, 4, 5 }, new int[] { 6, 6, 13 })));
-			settingClasses.Add(new AdvancedWarrior("Soldier", new int[] { 18, 18, 18, 18, 18, 18 }, 8, 2, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000 }, 325000, 10, 99, new AdvancedClassStatDefinitions(new int[] { 1, 2, 3, 5 }, 10, 2, new int[] { 0, 4 }, new int[] { 9, 10 })));
+			settingDefaultLanceAndTomeConfig();//call and setup the configs.  Temporary... as much as any code is temporary.
 
-            //the monk is another edge case, this time for HP
             //Beginning of Racedeterminations V2.
-			
+
             settingRaces.Add(new Race("Human", new int[] { 3, 3, 3, 3, 3, 3 }, new int[] { 18, 18, 18, 18, 18, 18 }, new int[] { 18, 18, 18, 18, 18, 18 }, 100, 50, "", new int[] { 0, 0, 0, 0, 0, 0 },settingClasses));
             
 			settingRaces.Add(new Race("Dwarf", new int[] { 8, 3, 3, 3, 12, 3 }, new int[] { 18, 18, 18, 17, 19, 16 }, new int[] { 17, 18, 18, 17, 19, 16 }, 99, 99, "Constitution +1 Charismas -1", new int[] { 0, 0, 0, 0, 1, -1 }, new List<CharClass> { settingClasses[0], settingClasses[6], settingClasses[9], settingClasses[11], settingClasses[12] }));
@@ -202,8 +184,30 @@ namespace CharacterGenerator
                 Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
 			}//end of while(true)
 		}//end of main
+		public static void settingDefaultLanceAndTomeConfig()
+		{
+            //this just moves the instantiation calls that are "default" into here, to declutter the Main() method
+            settingClasses.Add(new CharClass("Fighter", new int[] { 9, 3, 6, 6, 7, 6 }, 10, 1, 0, new List<int> { 2000, 4000, 8000, 18000, 35000, 70000, 125000, 250000, 500000, 750000 }, 250000, 10, 99));
+            settingClasses.Add(new CharClass("Paladin", new int[] { 12, 9, 13, 6, 9, 17 }, 10, 1, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000, 975000, 1300000 }, 325000, 12, 99));
+            settingClasses.Add(new CharClass("Ranger", new int[] { 13, 13, 14, 6, 14, 6 }, 8, 2, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000 }, 325000, 10, 99));//Ranger is edge case for HP
+            settingClasses.Add(new CharClass("Illusionist", new int[] { 3, 15, 6, 16, 3, 6 }, 4, 1, 0, new List<int> { 2250, 4500, 9000, 18000, 35000, 60000, 95000, 145000, 220000, 440000 }, 220000, 10, 99));
+            settingClasses.Add(new CharClass("Mage", new int[] { 3, 9, 6, 6, 3, 6 }, 4, 1, 0, new List<int> { 2500, 5000, 10000, 22500, 40000, 60000, 90000, 135000, 250000, 375000, 750000 }, 375000, 11, 99));
+            settingClasses.Add(new CharClass("Scholar", new int[] { 3, 12, 10, 6, 3, 6 }, 4, 1, 0, new List<int> { 2250, 4500, 9000, 18000, 35000, 60000, 95000, 145000, 220000, 440000 }, 220000, 10, 99));
+            settingClasses.Add(new CharClass("Cleric", new int[] { 6, 6, 9, 3, 6, 6 }, 8, 1, 0, new List<int> { 1500, 3000, 6000, 13000, 27500, 55000, 110000, 225000, 450000, 675000 }, 225000, 10, 99));
+            settingClasses.Add(new CharClass("Druid", new int[] { 6, 6, 12, 3, 6, 15 }, 8, 1, 0, new List<int> { 2000, 4000, 7500, 12500, 20000, 35000, 60000, 90000, 125000, 200000, 300000, 750000, 1500000, 3000000 }, 0, 14, 15));
+            settingClasses.Add(new CharClass("Bard", new int[] { 8, 12, 12, 15, 8, 14 }, 6, 1, 0, new List<int> { 2000, 4000, 8000, 16000, 33000, 67000, 135000, 270000, 500000, 750000, 1000000, 1300000, 1600000, 1900000, 2250000, 2600000, 2950000, 3300000, 3700000, 4150000, 4650000, 5400000 }, 0, 22, 23));
+            settingClasses.Add(new CharClass("Assassin", new int[] { 12, 11, 3, 12, 6, 3 }, 6, 1, 0, new List<int> { 1500, 3000, 6000, 12000, 25000, 50000, 100000, 200000, 300000, 425000, 575000, 750000, 1000000, 1500000 }, 0, 14, 15));
+            settingClasses.Add(new CharClass("Scout", new int[] { 8, 11, 3, 11, 6, 3 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
+            settingClasses.Add(new CharClass("Spy", new int[] { 6, 13, 9, 11, 6, 14 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
+            settingClasses.Add(new CharClass("Thief", new int[] { 6, 6, 3, 9, 6, 3 }, 6, 1, 0, new List<int> { 1250, 2500, 5000, 10000, 20000, 42000, 70000, 110000, 160000, 220000, 440000 }, 220000, 11, 99));
+            settingClasses.Add(new CharClass("Monk", new int[] { 15, 6, 15, 15, 11, 6 }, 4, 1, 1, new List<int> { 2250, 4750, 10000, 22500, 47500, 98000, 200000, 350000, 500000, 700000, 950000, 1250000, 1750000, 2250000, 2750000, 3250000 }, 0, 16, 17));//monk is edge case for HP
 
-		public static string DetermineRaceV1()
+            settingClasses.Add(new AdvancedWarrior("Barbarian", new int[] { 10, 9, 9, 9, 10, 9 }, 8, 2, 0, new List<int> { 2500, 5000, 11000, 22000, 42500, 92500, 165000, 300000, 500000, 825000 }, 325000, 10, 99, new AdvancedClassStatDefinitions(new int[] { 1, 2, 3, 5 }, 11, 3, new int[] { 0, 4 }, new int[] { 10, 10 })));
+            settingClasses.Add(new AdvancedWarrior("Nobleman", new int[] { 18, 18, 18, 18, 18, 18 }, 8, 1, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000, 975000, 1300000 }, 325000, 12, 99, new AdvancedClassStatDefinitions(new int[] { 0, 1, 2 }, 12, 1, new int[] { 3, 4, 5 }, new int[] { 6, 6, 13 })));
+            settingClasses.Add(new AdvancedWarrior("Soldier", new int[] { 18, 18, 18, 18, 18, 18 }, 8, 2, 0, new List<int> { 2250, 4500, 10000, 20000, 40000, 90000, 150000, 225000, 325000, 650000 }, 325000, 10, 99, new AdvancedClassStatDefinitions(new int[] { 1, 2, 3, 5 }, 10, 2, new int[] { 0, 4 }, new int[] { 9, 10 })));
+
+        }//end of settingDefaultLanceAndTomeConfig
+        public static string DetermineRaceV1()
 		{
 
             //Eval and present valid races, and attempt to highlight stat lossess
@@ -254,7 +258,7 @@ namespace CharacterGenerator
             }//end of rawStat Index loop
 
 			return "";
-		}//DetermineRaceV1
+		}//end of DetermineRaceV1
 		public static List<Race> DetermineRacesV2(int[] inputStats)
 		{
 			List<Race> valids = new List<Race>();
