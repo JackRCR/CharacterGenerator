@@ -127,28 +127,17 @@ namespace CharacterGenerator
 				//Deactivating
 				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
 				//Select set
+				
 				if (rawStats.Count > 1)//testing/future proofing
 				{
-					Console.WriteLine("Select set:\n" +
-                        "   STR INT WIS DEX CON CHA");
-					for (int x = 0; x < rawStats.Count; x++)
-					{
-						string format="";
-						for (int y = 0; y < rawStats[x].Length; y++)
-						{
-							format += rawStats[x][y].ToString().PadLeft(4);
 
-                        }//end of inner for
-						if (x < 9)
-							format = "0"+(x+1)+":"+format;
-						else
-							format = (x+1)+":"+format;
-						Console.WriteLine(format);
-					}//end of outer for
-				}//end of if
+					Console.WriteLine("Make set selection");
+                    int.TryParse(Console.ReadLine(), out selectedSet);
+                    
+                }//end of if
 				else
 					selectedSet = 0;
-
+				selectedSet--;
 				
 
 
@@ -171,7 +160,7 @@ namespace CharacterGenerator
 
 				//random determinations for race/class variables.
 
-
+				ListStatFormat(new List<int[]> { rawStats[selectedSet] }, "Post selectedSet Test", false);
 
                 Console.WriteLine("====================");//a string constructor should be used to make this as easy as possible.
 			}//end of while(true)
@@ -274,8 +263,8 @@ namespace CharacterGenerator
 
 			Console.WriteLine("DetermineRaceV2:");
 			//for debug purposes, display what was collected.
-			for (int x = 0; x < valids.Count; x++)
-				Console.WriteLine(valids[x].Name);
+			//for (int x = 0; x < valids.Count; x++)
+				//Console.WriteLine(valids[x].Name);
 
 			return valids;
 
@@ -406,12 +395,18 @@ namespace CharacterGenerator
 			Console.WriteLine("Stat Options:");
 			for (int x = 0;x<statNames.Length;x++)
 				Console.WriteLine((x+1) + ": " +input[x]);//+1 to make the suggestion 1-6 not 0-5.
+			Console.WriteLine("Would you like to rearrange?  Y/N");
+			string temp = Console.ReadLine();
+			if (temp.ToUpper() == "N")
+				return input;
+
 			Console.WriteLine("Select the corresponding number ONCE:");
 			for (int x = 0;x<statNames.Length;x++)
 			{//Stepping through the prompts for entry
 				Restart:
 				Console.Write(statNames[x]+": ");
 				int.TryParse(Console.ReadLine(), out usedNums[x]);//parse and stow the selected val.
+				
 				for (int y = 0; y < x + 1; y++)//VERIFY NO ENTERED NUM IS USED TWICE
 				{
 					if (usedNums[y] == usedNums[x] && y != x)// compared the stored value, NOT the the indexes
@@ -434,8 +429,56 @@ namespace CharacterGenerator
 			}
 			//test output may be necessary.
 			return output;
-		}//end of ArrangeSet		
-		public static List<int[]> MethodI()//Creating to segregate out the results
+		}//end of ArrangeSet
+		public static void OneDArrayStatFormat(int[] input)
+		{
+			
+            //We are using some variant of test printing.  values.  We should take a set of values and dynamically displaying that, and compress the code a bit.
+            string format = "";
+            for (int y = 0; y < input.Length; y++)
+            {
+                format += input[y].ToString().PadLeft(4);//logging purposes
+            }//end of inner for
+            Console.WriteLine(format);
+			
+
+        }
+        public static void OneDArrayStatFormat(int[] input, string prefix)
+        {
+
+            //We are using some variant of test printing.  values.  We should take a set of values and dynamically displaying that, and compress the code a bit.
+            string format = "";
+            for (int y = 0; y < input.Length; y++)
+            {
+                format += input[y].ToString().PadLeft(4);//logging purposes
+            }//end of inner for
+            Console.WriteLine(prefix+format);
+
+
+        }
+        public static void ListStatFormat(List<int[]> input, string Source, bool indexPrefix)
+		{
+			string[] prefix= new string[12];
+			if (indexPrefix){
+				for (int x = 0; x < input.Count; x++)
+				{
+					if (x < 9)
+						prefix[x] = "0" + (x + 1) + ":";
+					else
+						prefix[x] = (x + 1) + ":";
+				}
+            }
+
+			string format="";
+			for (int x = 0; x < statNames.Length; x++)
+				format += " "+statNames[x];
+			Console.WriteLine(Source+":");
+			Console.WriteLine(format);
+			for (int x = 0; x < input.Count; x++) {
+				OneDArrayStatFormat(input[x], prefix[x]);
+			}
+        }
+        public static List<int[]> MethodI()//Creating to segregate out the results
 		{
 			//1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.
 			List<int[]> results = new List<int[]>();//jagged array.  Probably the solution to my problemw ith passing 1D arrays
@@ -462,7 +505,10 @@ namespace CharacterGenerator
 				
 			}//end of validation failure reroll loop
 			results[0] = ArrangeSet(results[0]);
-			return results;
+            string format = "";
+            ListStatFormat(results, "Method I output", false);
+
+            return results;
 			//CONCERN: this would overwrite the value in rawStats.  Might be undesireable.  Or maybe negates the declarations in MAIN
 
 		}//end of MethodI
@@ -506,6 +552,8 @@ namespace CharacterGenerator
             }//end of validation failure reroll loop
             results.Add(outbound);
             results[0] = ArrangeSet(results[0]);
+
+            ListStatFormat(results, "Method II output", false);
             return results;
             
 		}//end of methodII
@@ -518,7 +566,7 @@ namespace CharacterGenerator
             string format = "";
             bool validate = false;
 			while (validate == false){
-				Console.WriteLine("MethodIII logging:");
+				//Console.WriteLine("MethodIII logging:");
 				for (int x = 0; x < 6; x++)
 				{
 					int[] temp = new int[6];
@@ -530,14 +578,9 @@ namespace CharacterGenerator
 						}
 					}//end of y loop
                     Array.Sort(temp);
-                    format = "";
-					for (int z = 0; z < temp.Length; z++)
-					{
-						format += temp[z].ToString().PadLeft(4);//logging purposes
-					}
-					Console.WriteLine("x=" + x + ":" + format);
-					
-					outbound[x] = temp[5];//stow the highest value from the sorted array
+                    //OneDArrayStatFormat(temp,x+"=");
+
+                    outbound[x] = temp[5];//stow the highest value from the sorted array
 				}//end of x loop
 
 				format = "";
@@ -551,7 +594,7 @@ namespace CharacterGenerator
             }//end of validation loop
             List<int[]> results = new List<int[]>();
             results.Add(outbound);
-
+            ListStatFormat(results, "Method III output", false);
             return results;
 		}
 		public static List<int[]> MethodIV()
@@ -590,7 +633,7 @@ namespace CharacterGenerator
 	 			*/
             }//end of generation loop
 
-
+            ListStatFormat(results, "Method II output", true);
             return results;
         }
 		public static List<int[]> LanceAndTombMethod0()
@@ -611,12 +654,7 @@ namespace CharacterGenerator
                 validate = ValidateLegalSet(temp);
                 Console.WriteLine("Validate: " + validate);
             }//end of validation loop
-            string format = "";
-            for (int z = 0; z < temp.Length; z++)
-            {
-                format += temp[z].ToString().PadLeft(4);//logging purposes
-            }
-            Console.WriteLine("Stats:" + format);
+            ListStatFormat(results, "L&T M.0 output", false);
 
             results.Add(temp);
             return results;
@@ -642,12 +680,7 @@ namespace CharacterGenerator
         temp = swap[0][selection[0]];//current value in the string is moved to temp.
 			swap[0][selection[0]] = swap[0][selection[1]];
 			swap[0][selection[1]] = temp;
-            string format = "";
-            for (int z = 0; z < swap[0].Length; z++)
-            {
-                format += swap[0][z].ToString().PadLeft(4);//logging purposes
-            }
-			Console.WriteLine("Post Swap:"+format);
+            ListStatFormat(swap, "L&T M.1", false);
 
             return swap;
         }
