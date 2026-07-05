@@ -112,7 +112,9 @@ namespace CharacterGenerator
                         break;
 					case 5:
 						Console.WriteLine("Oops, L&T M.0 has not been written!  Report to Carefulrogue");
-						break;
+						rawStats = LanceAndTombMethod0();
+
+                        break;
 					case 6:
 						Console.WriteLine("Oops, L&T M.1 has not been written!  Report to Carefulrogue");
 						break;
@@ -593,7 +595,41 @@ namespace CharacterGenerator
 
             return results;
         }
-		public static List<int[]> MethodManual()
+		public static List<int[]> LanceAndTombMethod0()
+		{
+            List<int[]> results = new List<int[]>();
+            int[] temp = new int[6];
+            bool validate = false;
+			while (validate == false)
+			{
+				for (int x = 0; x < temp.Length; x++)
+				{
+					for (int y = 0; y < 3; y++)
+					{
+						temp[x] += Dice(6);
+					}//end of y loop
+				}//end of x loop
+                validate = ValidateLegalSet(temp);
+                Console.WriteLine("Validate: " + validate);
+            }//end of validation loop
+            string format = "";
+            for (int z = 0; z < temp.Length; z++)
+            {
+                format += temp[z].ToString().PadLeft(4);//logging purposes
+            }
+            Console.WriteLine("Stats:" + format);
+
+            results.Add(temp);
+            return results;
+        }
+        public static List<int[]> LanceAndTombMethodI()
+        {
+
+
+
+            return null;
+        }
+        public static List<int[]> MethodManual()
 		{
 			List<int[]> results = new List<int[]>();
 			results.Add(new int[6]);
