@@ -468,22 +468,46 @@ namespace CharacterGenerator
 		}//end of MethodI
 		public static List<int[]> MethodII()
 		{
-			//"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
-			
+            //"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained."
 
-				//Console.WriteLine(temp);//test output
+            List<int[]> results = new List<int[]>();//jagged array.  Probably the solution to my problemw ith passing 1D arrays
+            int[] outbound = new int[6];
+            bool validate = false;
+            while (validate == false)
+            {
+				int[] temp = new int[12];
+                for (int x = 0; x < temp.Length; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        temp[x] += Dice(6);//generate and tally 3d6
+                    }//end of dice rolling
+					
+                }//rolls for stats
+				//Sort for ease of reading, and present scores
+                Array.Sort(temp);
+				Array.Reverse(temp);
+                string format = "";
+                for (int y = 0; y < temp.Length; y++)
+                {
+                    format += temp[y].ToString().PadLeft(4);//logging purposes
+                }//end of inner for
+				Console.WriteLine("Preliminary results:"+format);
+				//filter for 6 highest values
+				for(int x = 0; x < outbound.Length; x++)
+				{
+					outbound[x] = temp[x];
+				}
 				
-				//need a means to eval the outcome against the current stored set(s) or no sets, as the case may be.
-				//PSEUDO CODE 
-				/*
-				if (results[0].lowest <= temp)//compare lowest stored value against the generated temp var.  If the stored value is lower, replace it.
-					results[0].lowest = temp;
-     				//else... loop around
-	 			*/
-			}//end of generation loop
+				//finally, validate if the set is legal:
+				validate = ValidateLegalSet(outbound);
+                Console.WriteLine("Validate: " + validate);
 
-
-			return results;
+            }//end of validation failure reroll loop
+            results.Add(outbound);
+            results[0] = ArrangeSet(results[0]);
+            return results;
+            
 		}//end of methodII
 
 		public static List<int[]> MethodIII()
