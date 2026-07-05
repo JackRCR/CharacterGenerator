@@ -101,11 +101,11 @@ namespace CharacterGenerator
 						rawStats = MethodI();
 						break;
 					case 2:
-						//Console.WriteLine("Oops, Method II has not been written!  Report to Carefulrogue");
 						rawStats = MethodII();
 						break;
 					case 3:
-						Console.WriteLine("Oops, Method III has not been written!  Report to Carefulrogue");
+                        //Console.WriteLine("Oops, Method III has not been written!  Report to Carefulrogue");
+                        rawStats = MethodIII();
 						break;
 					case 4:
                         rawStats = MethodIV();
@@ -470,7 +470,7 @@ namespace CharacterGenerator
 		{
             //"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained."
 
-            List<int[]> results = new List<int[]>();//jagged array.  Probably the solution to my problemw ith passing 1D arrays
+            List<int[]> results = new List<int[]>();
             int[] outbound = new int[6];
             bool validate = false;
             while (validate == false)
@@ -512,7 +512,47 @@ namespace CharacterGenerator
 
 		public static List<int[]> MethodIII()
 		{
-			return null;
+            //3: Method III: Scores rolled are according to each ability category, in order, STR, INT, WIS, DEX, CON, CHA.
+            //3d6 are rolled 6 times for each ability, and the highest score in each category is retained for that category.
+            int[] outbound = new int[6];
+            string format = "";
+            bool validate = false;
+			while (validate == false){
+				Console.WriteLine("MethodIII logging:");
+				for (int x = 0; x < 6; x++)
+				{
+					int[] temp = new int[6];
+					for (int y = 0; y < 6; y++)
+					{
+						for (int z = 0; z < 3; z++)
+						{
+							temp[y] += Dice(6);
+						}
+					}//end of y loop
+                    Array.Sort(temp);
+                    format = "";
+					for (int z = 0; z < temp.Length; z++)
+					{
+						format += temp[z].ToString().PadLeft(4);//logging purposes
+					}
+					Console.WriteLine("x=" + x + ":" + format);
+					
+					outbound[x] = temp[5];//stow the highest value from the sorted array
+				}//end of x loop
+
+				format = "";
+				for (int x = 0; x < outbound.Length; x++)
+				{
+					format += outbound[x].ToString().PadLeft(4);//logging purposes
+				}
+				Console.WriteLine("outbound:" + format);
+                validate = ValidateLegalSet(outbound);
+                Console.WriteLine("Validate: " + validate);
+            }//end of validation loop
+            List<int[]> results = new List<int[]>();
+            results.Add(outbound);
+
+            return results;
 		}
 		public static List<int[]> MethodIV()
 		{
