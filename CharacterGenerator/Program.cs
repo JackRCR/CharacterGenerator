@@ -13,7 +13,7 @@ namespace CharacterGenerator
 	{
 		private static Random rnd = new Random();
 		private static readonly String[] statNames = new String[] {"STR","INT","WIS","DEX","CON","CHA"};
-		private static List<int[]> rawStats = new List<int[]>();
+		private static List<int[]> rawStats = new List<int[]>();//Holding in case one wanted to "go back" and look at another set of options.
 		//the below too must closely tie their index with the above's index.  If an index is removed, the following need the corresponding done
 		private static List<Race> validRaces=null;
         private static List<CharClass> validClasses = new List<CharClass>();
@@ -101,14 +101,15 @@ namespace CharacterGenerator
 						rawStats = MethodI();
 						break;
 					case 2:
-						Console.WriteLine("Oops, Method II has not been written!  Report to Carefulrogue");
+						//Console.WriteLine("Oops, Method II has not been written!  Report to Carefulrogue");
+						rawStats = MethodII();
 						break;
 					case 3:
 						Console.WriteLine("Oops, Method III has not been written!  Report to Carefulrogue");
 						break;
 					case 4:
-						Console.WriteLine("Oops, Method IV has not been written!  Report to Carefulrogue");
-						break;
+                        rawStats = MethodIV();
+                        break;
 					case 5:
 						Console.WriteLine("Oops, L&T M.0 has not been written!  Report to Carefulrogue");
 						break;
@@ -129,7 +130,7 @@ namespace CharacterGenerator
 				if (rawStats.Count > 1)//testing/future proofing
 				{
 					Console.WriteLine("Select set:\n" +
-                        " STR INT WIS DEX CON CHA");
+                        "   STR INT WIS DEX CON CHA");
 					for (int x = 0; x < rawStats.Count; x++)
 					{
 						string format="";
@@ -138,7 +139,11 @@ namespace CharacterGenerator
 							format += rawStats[x][y].ToString().PadLeft(4);
 
                         }//end of inner for
-							Console.WriteLine(format);
+						if (x < 9)
+							format = "0"+(x+1)+":"+format;
+						else
+							format = (x+1)+":"+format;
+						Console.WriteLine(format);
 					}//end of outer for
 				}//end of if
 				else
@@ -464,17 +469,9 @@ namespace CharacterGenerator
 		public static List<int[]> MethodII()
 		{
 			//"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained.\n" +
-			List<int[]> results = new List<int[]>();
-			results[0] = new int[12];//size of 12, or size of 6 and just discard the stats below the lowest value, or store all and filter after?
-			for (int x = 0;x<12;x++)
-			{
-				int temp = 0;
-				for (int y = 0; y<3;y++)
-				{
-					temp+=Dice(6);
-				}//end of rolling for 1 set
-				
-				Console.WriteLine(temp);//test output
+			
+
+				//Console.WriteLine(temp);//test output
 				
 				//need a means to eval the outcome against the current stored set(s) or no sets, as the case may be.
 				//PSEUDO CODE 
@@ -493,6 +490,45 @@ namespace CharacterGenerator
 		{
 			return null;
 		}
+		public static List<int[]> MethodIV()
+		{
+            //"4: Method IV: 3d6 are rolled sufficient times to generate the 6 ability scores, in order, for 12 characters.
+			//The player then selects the single set of scores which he or she finds most desirable and these scores are noted on the character record sheet."
+            List<int[]> results = new List<int[]>();
+            for (int x = 0; x < 12; x++)
+            {
+                int[] temp = new int[6];
+                bool validate = false;
+                while (validate == false)
+                {
+
+                    for (int y = 0; y < 6; y++)
+                    {
+                        for (int z = 0; z < 3; z++)
+                        {
+                            temp[y] += Dice(6);
+                        }//end of rolling 3d6 for one stat
+                    }//end of rolling for one set 6x 3d6
+                    validate = ValidateLegalSet(temp);
+                    Console.WriteLine("Validate: #" + (x + 1) + ": " + validate);
+                }//validation loop.  Discard if impossible, and keep rolling until a valide set is found.
+                results.Add(temp);//if valid, add to results.
+
+
+                //Console.WriteLine(temp);//test output
+
+                //need a means to eval the outcome against the current stored set(s) or no sets, as the case may be.
+                //PSEUDO CODE 
+                /*
+				if (results[0].lowest <= temp)//compare lowest stored value against the generated temp var.  If the stored value is lower, replace it.
+					results[0].lowest = temp;
+     				//else... loop around
+	 			*/
+            }//end of generation loop
+
+
+            return results;
+        }
 		public static List<int[]> MethodManual()
 		{
 			List<int[]> results = new List<int[]>();
