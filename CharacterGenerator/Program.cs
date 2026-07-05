@@ -104,19 +104,17 @@ namespace CharacterGenerator
 						rawStats = MethodII();
 						break;
 					case 3:
-                        //Console.WriteLine("Oops, Method III has not been written!  Report to Carefulrogue");
                         rawStats = MethodIII();
 						break;
 					case 4:
                         rawStats = MethodIV();
                         break;
 					case 5:
-						Console.WriteLine("Oops, L&T M.0 has not been written!  Report to Carefulrogue");
 						rawStats = LanceAndTombMethod0();
 
                         break;
 					case 6:
-						Console.WriteLine("Oops, L&T M.1 has not been written!  Report to Carefulrogue");
+						rawStats = LanceAndTombMethodI();
 						break;
 					case 9:
 						rawStats = MethodManual();
@@ -597,6 +595,7 @@ namespace CharacterGenerator
         }
 		public static List<int[]> LanceAndTombMethod0()
 		{
+            //The default is to roll 3d6 for each attribute in order,
             List<int[]> results = new List<int[]>();
             int[] temp = new int[6];
             bool validate = false;
@@ -624,10 +623,33 @@ namespace CharacterGenerator
         }
         public static List<int[]> LanceAndTombMethodI()
         {
+			//Alternate Method One: Roll 3d6 in order then swap two scores for each other.
+			Console.WriteLine("Calling into L&T M.0 for stats...");
+            List<int[]> swap = LanceAndTombMethod0();//Same root actions being taken.
+			int[] selection = new int[2];
+			int temp;
+            Console.WriteLine("Stat Options:");
+            for (int x = 0; x < statNames.Length; x++)
+				Console.WriteLine(statNames[x] + " "+ (x+1)+ ": " + swap[0][x]);
 
+            Console.WriteLine("Select first score to swap:");
+            int.TryParse(Console.ReadLine(), out selection[0]);
+            Console.WriteLine("Select second score to swap:");
+            int.TryParse(Console.ReadLine(), out selection[1]);
+			selection[0]--;
+			selection[1]--;
 
+        temp = swap[0][selection[0]];//current value in the string is moved to temp.
+			swap[0][selection[0]] = swap[0][selection[1]];
+			swap[0][selection[1]] = temp;
+            string format = "";
+            for (int z = 0; z < swap[0].Length; z++)
+            {
+                format += swap[0][z].ToString().PadLeft(4);//logging purposes
+            }
+			Console.WriteLine("Post Swap:"+format);
 
-            return null;
+            return swap;
         }
         public static List<int[]> MethodManual()
 		{
