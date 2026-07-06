@@ -145,10 +145,11 @@ namespace CharacterGenerator
                 //There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
 
                 urist.Race=(SelectRace(validRaces));//This works.  
+                DetermineClasses(urist.Race, rawStats[selectedSet]);
+				urist.CharClass = DetermineClasses(urist.Race, rawStats[selectedSet]);
+                //urist.CharClass= DetermineClasses(urist.Race, rawStats[selectedSet]);//BUSTED
 
-				urist.CharClass=DetermineClasses(urist.Race, rawStats[selectedSet]);
-
-				Console.WriteLine(urist.toString());
+                Console.WriteLine(urist.toString());
                 Console.WriteLine("Select Sex:\n" +
                     "1. Male\n" +
                     "2. Female");
