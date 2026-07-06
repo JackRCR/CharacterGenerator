@@ -8,12 +8,14 @@ namespace CharacterGenerator
 {
 	internal class Character
 	{
+
+		//The actual work in this class is pending.  What I will do with anything is a matter pending a future lazy day.
 		private int[] rawStats = new int[6];//raw stats to be held in reserve ALWAYS
 		private int[] magicStatAdjs = new int[6];//a plce to track the net permanent stat effects affecting a character.  Does not track source.  May change to some other method.
 		private int[] actualStats = new int[6];//modified stat state.  May occassionally require recalcing, checking race, sex, etc.
 		
 		
-		private CharClass charClass;//for reference
+		private List<CharClass> charClass;//for reference
 		private Race race;//for reference
 		
 		private int age;
@@ -29,7 +31,7 @@ namespace CharacterGenerator
         public int[] MagicStatAdjs { get => magicStatAdjs; set => magicStatAdjs = value; }
         public int[] ActualStats { get => actualStats; set => actualStats = value; }
         public int Age { get => age; set => age = value; }
-        public  CharClass CharClass { get => charClass; set => charClass = value; }
+        public  List<CharClass> CharClass { get => charClass; set => charClass = value; }
         public Race Race { get => race; set => race = value; }
         public bool Sex { get => sex; set => sex = value; }
 
@@ -52,7 +54,7 @@ namespace CharacterGenerator
 		}//end of StatRecalc
 		public string toString()
 		{
-			return "Class: " + charClass.Name + " Race: " + race.Name;
+			return "Class: " + charClass + " Race: " + race.Name;
 		}//end of 
 	}//end of class
 }//end of namespace

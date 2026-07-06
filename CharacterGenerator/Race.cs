@@ -31,6 +31,8 @@ namespace CharacterGenerator
 		private List<CharClass> eligibleClasses = new List<CharClass>();//"what classes can this race play?"
                                                                         //This is a REFERENCE list.  Tying these together is giong to be... tricky, on load, as this is storing memory references.
                                                                         //Storing and rebuilding these are gonna suck
+        private List<CharClass[]> eligibleMultiClasses;//This is the simpliest idea I have for encapsulating the multiclass madness.  Establish the sets, and pray.
+
 
         private List<char> classRestrictions = new List<char>();//unused presently.  Has... issues.
         /*this will be code based.
@@ -67,8 +69,8 @@ namespace CharacterGenerator
         public int[] ScoreModification { get => scoreModification; set => scoreModification = value; }
         internal List<CharClass> EligibleClasses1 { get => eligibleClasses; set => eligibleClasses = value; }
         public List<char> ClassRestrictions { get => classRestrictions; set => classRestrictions = value; }
+        internal List<CharClass[]> EligibleMultiClasses { get => eligibleMultiClasses; set => eligibleMultiClasses = value; }
 
-       
         public Race(String name, int[] racialMinimums, int[]maleMaximums, int[] femaleMaximums, 
 			int exceptionalStrengthCapMale, int exceptionalStrengthCapFemale, String statModsDesc, int[] scoreModification,List<CharClass> eligibleClasses) {
 			this.Name = name;

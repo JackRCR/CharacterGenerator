@@ -377,7 +377,6 @@ namespace CharacterGenerator
 
 			return true;
 		}//ValidateLegalSet
-		
 		public static int[] ArrangeSet(int[] input)
 		{
 			//purpose: for sets that will prompt for order considerations, this runs through the process
@@ -478,7 +477,7 @@ namespace CharacterGenerator
 				OneDArrayStatFormat(input[x], prefix[x]);
 			}
         }
-        public static List<int[]> MethodI()//Creating to segregate out the results
+        public static List<int[]> MethodI()
 		{
 			//1: Method I: Roll 4d6 six times, discarding the lowest, then arrange the stats to suit.  Attributes can be modified by the Race chosen later.
 			List<int[]> results = new List<int[]>();//jagged array.  Probably the solution to my problemw ith passing 1D arrays
@@ -511,7 +510,7 @@ namespace CharacterGenerator
             return results;
 			//CONCERN: this would overwrite the value in rawStats.  Might be undesireable.  Or maybe negates the declarations in MAIN
 
-		}//end of MethodI
+		}
 		public static List<int[]> MethodII()
 		{
             //"2: Method II: All scores are recorded and arranged as in Method I.  3d6 are rolled 12 times asnd the highest 6 scores are retained."
@@ -556,8 +555,7 @@ namespace CharacterGenerator
             ListStatFormat(results, "Method II output", false);
             return results;
             
-		}//end of methodII
-
+		}
 		public static List<int[]> MethodIII()
 		{
             //3: Method III: Scores rolled are according to each ability category, in order, STR, INT, WIS, DEX, CON, CHA.
@@ -696,6 +694,6 @@ namespace CharacterGenerator
 
 			}//end of loop
 			return results;
-		}//end of MethodManual
+		}
 	}//end of class
 }//end of namespace
