@@ -124,8 +124,6 @@ namespace CharacterGenerator
 						break;
 				}//end of switch block
 
-				//Deactivating
-				//DetermineRaceV1();//decoupling and decluttering main method.  This IS configured to give a return, but doesn't at present.
 				//Select set
 				
 				if (rawStats.Count > 1)//testing/future proofing
@@ -133,11 +131,12 @@ namespace CharacterGenerator
 
 					Console.WriteLine("Make set selection");
                     int.TryParse(Console.ReadLine(), out selectedSet);
-                    
+                    selectedSet--;
+
                 }//end of if
 				else
 					selectedSet = 0;
-				selectedSet--;
+				
 				
 
 
@@ -145,9 +144,8 @@ namespace CharacterGenerator
                 //There is some legacy ideas in rawStats.  Unimplemented.  Not YET necessary.
 
                 urist.Race=(SelectRace(validRaces));//This works.  
-                DetermineClasses(urist.Race, rawStats[selectedSet]);
-				urist.CharClass = DetermineClasses(urist.Race, rawStats[selectedSet]);
-                //urist.CharClass= DetermineClasses(urist.Race, rawStats[selectedSet]);//BUSTED
+                //DetermineClasses(urist.Race, rawStats[selectedSet]);
+				//urist.CharClass= DetermineClasses(urist.Race, rawStats[selectedSet]);//BUSTED
 
                 Console.WriteLine(urist.toString());
                 Console.WriteLine("Select Sex:\n" +
@@ -470,6 +468,9 @@ namespace CharacterGenerator
             }
 
 			string format="";
+			for (int x = 0; x< prefix[0].Length;x++)
+				format+=" ";
+
 			for (int x = 0; x < statNames.Length; x++)
 				format += " "+statNames[x];
 			Console.WriteLine(Source+":");
@@ -601,13 +602,14 @@ namespace CharacterGenerator
             //"4: Method IV: 3d6 are rolled sufficient times to generate the 6 ability scores, in order, for 12 characters.
 			//The player then selects the single set of scores which he or she finds most desirable and these scores are noted on the character record sheet."
             List<int[]> results = new List<int[]>();
+            int[] temp = new int[6];
             for (int x = 0; x < 12; x++)
             {
-                int[] temp = new int[6];
+                
                 bool validate = false;
                 while (validate == false)
                 {
-
+                    temp = new int[6];
                     for (int y = 0; y < 6; y++)
                     {
                         for (int z = 0; z < 3; z++)
