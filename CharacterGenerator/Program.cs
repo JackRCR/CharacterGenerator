@@ -468,7 +468,7 @@ namespace CharacterGenerator
             }
 
 			string format="";
-			for (int x = 0; x< prefix[0].Length;x++)
+			for (int x = 0; x< prefix[0].Length;x++)//is dynamic, just in case.
 				format+=" ";
 
 			for (int x = 0; x < statNames.Length; x++)
