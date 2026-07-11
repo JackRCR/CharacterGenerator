@@ -457,6 +457,7 @@ namespace CharacterGenerator
         public static void ListStatFormat(List<int[]> input, string Source, bool indexPrefix)
 		{
 			string[] prefix= new string[12];
+			
 			if (indexPrefix){
 				for (int x = 0; x < input.Count; x++)
 				{
@@ -465,7 +466,8 @@ namespace CharacterGenerator
 					else
 						prefix[x] = (x + 1) + ":";
 				}
-            }
+            } else
+				prefix[0] = "";
 
 			string format="";
 			for (int x = 0; x< prefix[0].Length;x++)//is dynamic, just in case.
